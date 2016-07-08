@@ -1,4 +1,5 @@
 <?php
+namespace Core;
 	/*
 	 * 类的管理器,负责实例化类
 	 * */

@@ -1,4 +1,5 @@
 <?php
+namespace Web;
 	/*
 	 * 服务器模拟类
 	 * */

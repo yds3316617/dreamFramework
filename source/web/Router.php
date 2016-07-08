@@ -1,12 +1,18 @@
 <?php
+namespace Web;
 require("/interface/IRouter.php");
 	/*
 	 * 服务器模拟类
 	 * */
     class Router implements IRouter{
-    	private $urlMap = array(
-    		'test'=>'web_Test',
-		);
+    	private $urlMap;
+
+        function __construct(){
+            $this->urlMap = array(
+                'test'=>'Controller_Admin_IndexController@Site',
+                'adminIndex'=>'Controller_Admin_IndexController:adminIndex@Site',
+            );
+        }
     	
 		/*
 		 * 路由解析
@@ -24,12 +30,19 @@ require("/interface/IRouter.php");
 			
 			//如果配置了路由
 			if($classInfo = $this->urlMap[$mapKey]){
-				$classInfo = explode('_',$classInfo);
-				$appName = $classInfo[0];
-				$controllerName = $classInfo[1];
-				if($pathInfoArr[1] && !is_numeric($pathInfoArr[1])){
-					$methodName = $pathInfoArr[1];
-                    unset($pathInfoArr[1]);
+                $classInfo = explode('@',$classInfo);
+                $appName = $classInfo[1];
+
+				$classInfo = explode('_',$classInfo[0]);
+				
+				$controllerName = array_pop($classInfo);
+                $controllerNameArr = explode(':',$controllerName);
+                $controllerName = $controllerNameArr[0];
+                
+                
+				if($controllerNameArr[1] && !is_numeric($controllerNameArr[1])){
+					$methodName = $controllerNameArr[1];
+                    unset($controllerNameArr[1]);
 				}else{
 					$methodName = 'index';
 				}
@@ -38,8 +51,10 @@ require("/interface/IRouter.php");
 				
 				$return['app'] = $appName;
 				$return['class'] = $controllerName;
-				$return['$method'] = $methodName;
+                $return['dir'] = $classInfo;
+				$return['method'] = $methodName;
 				$return['params'] = $params;
+                $return['classinfo'] = str_replace(":$methodName",'',$this->urlMap[$mapKey]);
 				
 				return $return;
 			}else{

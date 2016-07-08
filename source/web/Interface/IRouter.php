@@ -1,4 +1,5 @@
 <?php
+namespace Web;
 	/*
 	 * 路由解析
 	 * */
