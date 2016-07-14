@@ -9,8 +9,30 @@ require("/interface/IRouter.php");
 
         function __construct(){
             $this->urlMap = array(
-                'test'=>'Controller_Admin_IndexController@Site',
+                'adminLogin'=>'Controller_Admin_IndexController:login@Site',
+                #后台首页
                 'adminIndex'=>'Controller_Admin_IndexController:adminIndex@Site',
+                #首页
+                'index'=>'Controller_Site_IndexController:index@Site',
+                #店铺页
+                'shop'=>'Controller_Site_IndexController:shop@Site',
+                #商品详情
+                'productDetails'=>'Controller_Site_IndexController:productDetails@Site',
+                #结算页
+                'checkout'=>'Controller_Site_IndexController:checkout@Site',
+                #购物车
+                'cart'=>'Controller_Site_IndexController:cart@Site',
+                #登录
+                'login'=>'Controller_Site_IndexController:login@Site',
+                #blog列表
+                'blog'=>'Controller_Site_IndexController:blog@Site',
+                #单个blog
+                'blogSingle'=>'Controller_Site_IndexController:blogSingle@Site',
+                #404
+                '404'=>'Controller_Site_IndexController:notfound@Site',
+                #联系我们
+                'contactUs'=>'Controller_Site_IndexController:contactUs@Site',
+                
             );
         }
     	

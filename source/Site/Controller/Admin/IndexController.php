@@ -11,9 +11,11 @@ class IndexController extends Controller{
         parent::__construct();
     }
 
-    function index(){
-
-        $this->display('Site/View/index.html');
+    function login(){
+//        $server = FactoryManager::singleCreateProduct('DatabaseManager@Core');
+//        $server->setDatabase('dreamFrameworkGithub');
+//        $result = $server->getList('*',array(),'test');
+        $this->display('Site/View/Admin/login.html');
     }
 
     function adminIndex(){

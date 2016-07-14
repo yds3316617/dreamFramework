@@ -142,7 +142,7 @@ class Template {
                 $filename = $this->template_dir . '/' . $filename;
             }
 
-            if ($this->direct_output)
+            if (1==1 || $this->direct_output) //不用缓存先 by yindingsheng
             {
                 $this->_current_file = $filename;
 
@@ -452,7 +452,8 @@ class Template {
 
                 case 'include':
                     $t = $this->get_para(substr($tag, 8), 0);
-
+                    $t['file'] = $t['app'].'/'.$t['file'];
+//                    print_r($t['file']);exit;
                     return '<?php echo $this->fetch(' . "'$t[file]'" . '); ?>';
                     break;
 
