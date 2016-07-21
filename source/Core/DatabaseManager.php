@@ -14,12 +14,12 @@ class DatabaseManager {
     private  $username = 'root';
 
     #数据库名
-    private  $database;
+    private  $database = 'dreamFrameworkGithub';
 
     #数据库链接
     private  $connection;
 
-    #数据库链接
+    #错误信息 string
     public  $error;
 
 
@@ -56,11 +56,11 @@ class DatabaseManager {
         }
     }
     
-    function getList($cols,$filter=array(),$tableName,$join=array(),$orderby=1,$limit=-1,$page=1){
+    function getList($cols,$filter=array(),$tableName,$limit=-1,$page=1,$orderby=1,$join=array()){
         $this->connect();
         $page = $page>0?($page-1):0;
         $this->_select($cols,$tableName)->join($join)->_where($filter)->_orderby($orderby)->_limit($limit,$limit*$page);
-
+//print_r($this->cur_sql);exit;
         $statement = $this->connection->prepare($this->cur_sql);
         
         $statement->execute();
@@ -149,4 +149,77 @@ class DatabaseManager {
         $this->cur_sql .= $t;
         return $this;
     }
+
+
+    function add($data){
+        if($link = $this->connect()){
+            $this->cur_sql = $sql = $this->getInsertSql($data);
+            $resouce = $this->connection->exec($sql);
+//error_log(var_export($sql,1),3,'E:/1.txt');
+            $id = $this->connection->lastInsertId();//双主键此处返回值为0
+
+            return $id;
+        }else{
+            echo mysql_error();exit;
+            //...报异常
+        }
+    }
+
+    function update($filter,$data){
+        if($link = $this->connect()){
+            $sql = $this->getUpdateSql($filter,$data);
+
+            $resouce = $this->connection->exec($sql);
+            if($resouce) return true;
+
+            return false;
+        }else{
+            echo mysql_error();exit;
+            //...报异常
+        }
+    }
+
+
+    function getInsertSql($data){
+        $keys = implode(',',array_keys($data));
+        $values = implode(',',array_values($data));
+        $sql = 'insert into '.$this->tableName.'('.$keys.')'.'values '.'('.$values.')';
+
+        return $sql;
+    }
+
+    function _update($data){
+        $arr_up = array();
+        foreach($data as $k=>$v){
+            if(!is_array($v)){
+                $arr_up[]= "$k='$v'";
+            }
+        }
+
+        $str_up = implode(',',$arr_up);
+        $this->cur_sql = 'update '.$this->tableName.' set '.$str_up;
+        
+        return $this;
+    }
+
+    function getUpdateSql($filter,$data){
+       $this->_update($data)->_where($filter);
+       $sql = $this->cur_sql;
+
+       return $sql;
+    }
+
+	function _delete(){
+		$this->cur_sql = 'delete from '.$this->tableName.' ';
+		return $this;
+	}
+
+    function delete($filter){
+        $this->connect();
+		$this->_delete()->_where($filter);
+        $rs = $this->connection->exec($this->cur_sql);
+        return $rs;
+    }
+
+
 }

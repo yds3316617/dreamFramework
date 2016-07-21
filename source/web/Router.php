@@ -1,17 +1,21 @@
 <?php
 namespace Web;
 require("/interface/IRouter.php");
-	/*
-	 * 服务器模拟类
-	 * */
+    /*
+     * 服务器模拟类
+     * */
     class Router implements IRouter{
-    	private $urlMap;
+        private $urlMap;
 
         function __construct(){
             $this->urlMap = array(
                 'adminLogin'=>'Controller_Admin_IndexController:login@Site',
                 #后台首页
                 'adminIndex'=>'Controller_Admin_IndexController:adminIndex@Site',
+                #登录认证
+                'adminDoLogin'=>'Controller_Admin_IndexController:doLogin@Site',
+                
+
                 #首页
                 'index'=>'Controller_Site_IndexController:index@Site',
                 #店铺页
@@ -35,57 +39,68 @@ require("/interface/IRouter.php");
                 
             );
         }
-    	
-		/*
-		 * 路由解析
-		 * $pathInfo (Sting):"hello-123.html"
-		 * */
-		function parse($pathInfo){
-			//去斜杠
-			$pathInfo = str_replace('/', '', $pathInfo);
-			//去 .html
-			$pathInfo = str_replace('.html', '', $pathInfo);
-			
-			$pathInfoArr = explode('-', $pathInfo);
-			$mapKey = $pathInfoArr[0];
-			unset($pathInfoArr[0]);
-			
-			//如果配置了路由
-			if($classInfo = $this->urlMap[$mapKey]){
+        
+        /*
+         * 路由解析
+         * $pathInfo (Sting):"hello-123.html"
+         * */
+        function parse($pathInfo){
+            //去斜杠
+            $pathInfo = str_replace('/', '', $pathInfo);
+            //去 .html
+            $pathInfo = str_replace('.html', '', $pathInfo);
+            
+            $pathInfoArr = explode('-', $pathInfo);
+            $mapKey = $pathInfoArr[0];
+            unset($pathInfoArr[0]);
+            
+            if($mapKey == 'api'){
+                $return['app'] = 'Core';
+                $return['class'] = 'Api';
+                $return['dir'] = '';
+                $return['method'] = 'parseApi';
+                $return['classinfo'] = 'Api@Core';
+
+                return $return;
+            }
+
+            //如果配置了路由
+            if($classInfo = $this->urlMap[$mapKey]){
                 $classInfo = explode('@',$classInfo);
                 $appName = $classInfo[1];
 
-				$classInfo = explode('_',$classInfo[0]);
-				
-				$controllerName = array_pop($classInfo);
+                $classInfo = explode('_',$classInfo[0]);
+                
+                $controllerName = array_pop($classInfo);
                 $controllerNameArr = explode(':',$controllerName);
                 $controllerName = $controllerNameArr[0];
                 
                 
-				if($controllerNameArr[1] && !is_numeric($controllerNameArr[1])){
-					$methodName = $controllerNameArr[1];
+                if($controllerNameArr[1] && !is_numeric($controllerNameArr[1])){
+                    $methodName = $controllerNameArr[1];
                     unset($controllerNameArr[1]);
-				}else{
-					$methodName = 'index';
-				}
-				
-				$params = $pathInfoArr;
-				
-				$return['app'] = $appName;
-				$return['class'] = $controllerName;
+                }else{
+                    $methodName = 'index';
+                }
+                
+                $params = $pathInfoArr;
+
+                
+                $return['app'] = $appName;
+                $return['class'] = $controllerName;
                 $return['dir'] = $classInfo;
-				$return['method'] = $methodName;
-				$return['params'] = $params;
+                $return['method'] = $methodName;
+                $return['params'] = $params;
                 $return['classinfo'] = str_replace(":$methodName",'',$this->urlMap[$mapKey]);
-				
-				return $return;
-			}else{
-				return false;
-			}
-		}
-		
-		
-		
-		
-		
+
+                return $return;
+            }else{
+                return false;
+            }
+        }
+        
+        
+        
+        
+        
     }

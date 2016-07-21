@@ -12,6 +12,7 @@ class FactoryManager implements IFactoryManager{
      * $params(array): 构造函数如果需要参数，则传入数组
      * */
     public static function createProduct($className,$params=array()){
+        
         $paramStr = implode(',', $params);
         self::requireClass($className);
 
@@ -29,6 +30,34 @@ class FactoryManager implements IFactoryManager{
      * $params(array): 构造函数如果需要参数，则传入数组
      * */
     public static function singleCreateProduct($className,$params=array()){
+//        echo "<br>";
+//        echo $className;
+        if(self::$classList[$className]){
+            return self::$classList[$className];
+        }else{
+            $paramStr = implode(',', $params);
+            
+            self::requireClass($className);
+            
+            $classInfo = explode('@',$className);
+            $classInfo = explode('_',$classInfo[0]);
+            $newClassName = array_pop($classInfo);
+
+            $class = new $newClassName($paramStr);
+            self::$classList[$className] = $class;
+            return $class;
+        }
+                
+    }
+
+    /*
+     * 实例化类
+     * $class(string) : 类名
+     * $params(array): 构造函数如果需要参数，则传入数组
+     * */
+    public static function singleCreateProduct2($className,$params=array()){
+        echo "<br>";
+        echo $className;exit;
         if(self::$classList[$className]){
             return self::$classList[$className];
         }else{
@@ -79,10 +108,10 @@ class FactoryManager implements IFactoryManager{
             $dirInfo = '';
         }
         $className = self::$appId.'\\'.$dirInfo.$className;
-
-
+//        echo "<br>";
 //        echo $className;
         if(file_exists($path)){
+
             require_once($path);
             return true;
         }else{
@@ -94,11 +123,5 @@ class FactoryManager implements IFactoryManager{
     function getClassList(){
         return self::$classList;
     }
-    
-    function getDirNameFromClassName($className){
-        
-    }
-    
-    
-    
+
 }

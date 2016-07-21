@@ -5,28 +5,33 @@
  <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" 
  media="screen">
  <link href="{$__static_url}/site/css/style.css" rel='stylesheet' type='text/css' />
+  <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="App Loction Form,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements"./>
-
 
 </head>
 <body>
 	<h1></h1>
 		<div class="app-location">
-			<h2>Welcome to Locaticus</h2>
-			<div class="line"><span></span></div>
+			<h2>Welcome to Esuper</h2>
 			<div class="location"><img src="{$__static_url}/site/images/location.png" class="img-responsive" alt="" /></div>
-			<form autocomplete="off" >
-				<input name="uname" type="text" autocomplete="off" class="text" value="E-mail address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-mail address';}" >
-				<input type="password" autocomplete="off" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+			<form autocomplete="off" id="loginform" >
+                <div style="position:relative;">
+                    <input name="username" vtype="required&&email" type="text" autocomplete="off" class="text" value="E-mail address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
+                </div>
+
+                <div style="position:relative;">
+				    <input name="password" vtype="required" type="password" autocomplete="off" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+                </div>
 
                 <!--alert-info alert-success-->
-                <div class="alert alert-danger alert-dismissable">
+                <div id="alert-danger" class="alert alert-danger alert-dismissable hide">
                     错误！请进行一些更改。
                 </div>
-				<div class="submit"><input type="submit" onclick="myFunction()" value="Sign in" ></div>
+
+				<div class="submit">
+                    <input type="button" onclick="goform()" value="Sign in" ></div>
 				<div class="clear"></div>
 				<div class="new">
 					<div class="clear"></div>
@@ -39,7 +44,27 @@
 		</div>
 	<!--//end-copyright-->
     <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
+    <script src="{$__static_url}/common/js/jquery.self.validate.js"></script>
     <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>
+<script>
+    function goform(){
+        if($("#loginform").svalidate() == false){
+            return false;
+        }
+        
+        $.post("{$__base_url}/adminDoLogin.html",$("#loginform").serialize(),
+        function(rs){
+            console.log(rs);
+            if(rs.succ){
+                location.href = rs.data.nextUrl;
+            }else{
+                $('#alert-danger').text(rs.error);
+                $('#alert-danger').removeClass('hide');
+            }
+            
+        },'json');
+    }
+</script>
