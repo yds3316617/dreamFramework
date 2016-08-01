@@ -21,6 +21,9 @@ class DatabaseManager {
 
     #错误信息 string
     public  $error;
+	
+	#列信息
+    public  $columns;
 
 
     public function setHost($host){
@@ -44,7 +47,7 @@ class DatabaseManager {
      * 
      * */
     public  function connect(){
-        $dsn = "mysql:host=$this->host;dbname=$this->database";
+        $dsn = "mysql:host=$this->host;dbname=$this->database;charset=utf8";
         try{
             if(!$this->connection){
                 $this->connection = new PDO($dsn,$this->username,$this->password,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
@@ -58,9 +61,10 @@ class DatabaseManager {
     
     function getList($cols,$filter=array(),$tableName,$limit=-1,$page=1,$orderby=1,$join=array()){
         $this->connect();
+		
         $page = $page>0?($page-1):0;
         $this->_select($cols,$tableName)->join($join)->_where($filter)->_orderby($orderby)->_limit($limit,$limit*$page);
-//print_r($this->cur_sql);exit;
+
         $statement = $this->connection->prepare($this->cur_sql);
         
         $statement->execute();
@@ -160,7 +164,7 @@ class DatabaseManager {
 
             return $id;
         }else{
-            echo mysql_error();exit;
+            
             //...报异常
         }
     }
@@ -174,7 +178,7 @@ class DatabaseManager {
 
             return false;
         }else{
-            echo mysql_error();exit;
+            
             //...报异常
         }
     }
@@ -219,6 +223,28 @@ class DatabaseManager {
 		$this->_delete()->_where($filter);
         $rs = $this->connection->exec($this->cur_sql);
         return $rs;
+    }
+	
+	//获取列信息
+	function getColumns($tableName){
+		return require(ROOT_DIR.'Core/Dbschema/'.$tableName.'.php');
+	}
+
+	function count($filter){
+        $this->cur_sql = 'select count(*) as total from '.$this->tableName;
+        $this->_where($filter);
+        $this->connect();
+        
+//print_r($this->cur_sql);exit;
+        $statement = $this->connection->prepare($this->cur_sql);
+        
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+		
+		
+		return $result['total'];
+//		print_r($this->cur_sql);exit;
+
     }
 
 

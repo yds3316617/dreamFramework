@@ -31,149 +31,136 @@
 
 <div>
 
-    <nav class="navbar navbar-inverse" role="navigation">
-       <div class="navbar-header">
-          <a class="navbar-brand" href="#">Ecsuper</a>
-       </div>
-        <div class="navbar-header pull-right">
-          <a class="navbar-brand" href="#">注销</a>
-       </div>
-       <div>
-          <ul class="nav navbar-nav">
-             <li class="active"><a href="#">iOS</a></li>
-             <li><a href="#">SVN</a></li>
-             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                   Java <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu ">
-                   <li><a href="#">jmeter</a></li>
-                   <li><a href="#">EJB</a></li>
-                   <li><a href="#">Jasper Report</a></li>
-                   <li class="divider"></li>
-                   <li><a href="#">分离的链接</a></li>
-                   <li class="divider"></li>
-                   <li><a href="#">另一个分离的链接</a></li>
-                </ul>
-             </li>
-             <li><a href="#">SVN</a></li>
-             <li><a href="#">SVN</a></li>
-             <li><a href="#">SVN</a></li>
-            
-          </ul>
-       </div>
+<nav class="navbar navbar-inverse" role="navigation">
+    {include file="View/Admin/Block/nav.html" app="Site"}
 </nav>
 
-
-
-
-
-<div class="table-responsive">
-   <table class="table">
-      <caption>响应式表格布局</caption>
-      <thead>
-         <tr>
-            <th>产品</th>
-            <th>付款日期</th>
-            <th>状态</th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr class="success">
-            <td>产品1</td>
-            <td>23/11/2013</td>
-            <td>待发货</td>
-         </tr>
-         <tr>
-            <td>产品2</td>
-            <td>10/11/2013</td>
-            <td>发货中</td>
-         </tr>
-         <tr>
-            <td>产品3</td>
-            <td>20/10/2013</td>
-            <td>待确认</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-         <tr>
-            <td>产品4</td>
-            <td>20/10/2013</td>
-            <td>已退货</td>
-         </tr>
-      </tbody>
-   </table>
+<div class="table-responsive" >
+	<div>
+	  	<h4 class="pull-left">{$title}</h4>
+	  	<div class="pull-right" style="display:table">
+			<button type="button" id="btn_search" class="btn btn-default pull-right" style="margin-right:2px;margin-left:2px;">搜索</button>
+			<form method="post" id="form_admin">
+		  		<div class="input-group">
+		           <div class="input-group-btn">
+		              <button id="btn_searchTxt" type="button" class="btn btn-default 
+		                 dropdown-toggle" data-toggle="dropdown">
+		                 	搜索项
+		                 <span class="caret"></span>
+		              </button>
+			              <ul class="dropdown-menu">
+			              	{foreach from=$searchOptions key=key item=item}
+			                 <li searchtype="{$item.search_type}" cols="{$key}" class="j_searchLi" onclick="selectFilterOptions(this)"><a href="#">{$item.lable}</a></li>
+			                {/foreach}
+			              </ul>
+		              
+		           </div><!-- /btn-group -->
+		           <input type="text" id="filterValue" name="filterValue" class="form-control">
+		           <input type="hidden" id="filterCol"  name="filterCol" />
+		           
+		        </div><!-- /input-group -->
+	    	</form>
+	    
+	  	</div>
+	  	 
+	  </div>
+	 <div id="table-responsive">
+	 	{include file="View/Admin/grid.html" app="Site"}
+	 </div> 
+	
 </div>  	
 
 </div>
 
-<ul class="pagination pull-right">
-  <li><a href="#">&laquo;</a></li>
+<ul id="pagination" class="pagination pull-right">
+  <!-- li><a href="#">&laquo;</a></li>
   <li class="active"><a href="#">1</a></li>
   <li class="disabled"><a href="#">2</a></li>
   <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
+  <li><a href="#">...</a></li>
   <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
+  <li><a href="#">&raquo;</a></li -->
 </ul>
 
-
-       
         <!--/.fluid-container-->
-        <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
-        <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
+        
         <script>
-        $(function() {
-            
-        });
+        
+        //注销账号
+        $('#signout').click(function(e){
+			$.post("{$__base_url}/adminDoLoginout.html",
+	        function(rs){
+	//            console.log(rs);
+	            if(rs.succ){
+	                location.href = rs.data.nextUrl;
+	            }else{
+	                $('#alert-danger').text(rs.error);
+	                $('#alert-danger').removeClass('hide');
+	            }
+	            
+	        },'json');
+		});
+		
+		//分页相关js
+		//总页数
+		var $pages = "{$pages}";
+		//分页html元素 li
+		var $pageLi = $("<li><a href='#'></a></li>");
+		//分页html元素块
+		var $pageUl = $('#pagination');
+		
+		var leftPage = $("<li><a href='#'>&laquo;</a></li>");
+		var rightPage = $("<li><a href='#'>&raquo;</a></li>");
+		$pageUl.append(leftPage);
+		for(var i=1;i<=$pages;i++){
+			var $liClone = $pageLi.clone();
+			$liClone.find('a').text(i);
+			$liClone.attr('pageno',i);
+			$pageUl.append($liClone);
+			
+			$liClone.click(function(e){
+				goPage($(this));
+			});
+			
+		}
+		$pageUl.append(rightPage);
+		
+		//分页点击
+		function goPage(pageLi){
+			var $pageno = pageLi.attr('pageno');
+			var postData = $('#form_admin').serialize()+'&ajaxPage=1&pageno='+$pageno;
+			$.post("{$curpath}",postData,
+	        function(rs){
+//	            console.log(rs);
+	            $("#table-responsive").html(rs);
+	        },'html');
+//			console.log(pageLi.attr('pageno'));
+		}
+		
+		
+		
+		/******* 搜索项相关js  *****/
+		//搜索项默认选中第一个
+		$($(".j_searchLi")[0]).click();
+		$('#filterValue').bind('keypress',function(){
+			$('#btn_search').click();
+			return false;
+		});
+		//选择某个筛选项,触发事件
+		function selectFilterOptions(obj){
+			$("#btn_searchTxt").text($(obj).text());
+			var $filter = $(obj).attr('cols')+'|'+$(obj).attr('searchtype');
+			$('#filterCol').attr('value',$filter);
+		}
+		//点击搜素按钮执行搜素
+		$('#btn_search').click(function(e){
+			var postData = $('#form_admin').serialize()+'&ajaxPage=1';
+			$.post("{$curpath}",postData,
+	        function(rs){
+//	            console.log(rs);
+	            $("#table-responsive").html(rs);
+	        },'html');
+		});
         </script>
     </body>
 

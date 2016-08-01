@@ -28,8 +28,9 @@ require_once("/interface/IServer.php");
             $method = $routeInfo['method'];
             //print_r($objClass->$method());exit;
             
+            $objClass->routeInfo = $routeInfo;
             $objClass->$method();
-
+			
 //            echo "跑起来！";
         }
         

@@ -4,10 +4,16 @@ namespace Core;
 class Api{
 
     function apiList(){
-        #后台登录接口
+        
         return array(
+        	#后台登录
             'user.admin.login'=>'Api_Admin_Pam@Sysuer',
+            #后台检查是否登录状态
             'user.admin.checklogin'=>'Api_Admin_CheckLogin@Sysuer',
+            #后台注销
+            'user.admin.loginout'=>'Api_Admin_Loginout@Sysuer',
+            #品牌列表
+            'item.brand.list'=>'Api_Brand@Sysitem',
         );
     }
 
@@ -15,6 +21,7 @@ class Api{
         if(empty($apiName)){
             $apiName = $_REQUEST['method'];
         }
+		
         if(empty($params)){
             $params = $_REQUEST;
             unset($params['method']);
@@ -26,7 +33,6 @@ class Api{
             $class = FactoryManager::createProduct($classInfo);
             
             $data = $class->Api($params);
-            
             if($data){
                 return $this->success('00',$data);
             }else{
@@ -41,10 +47,9 @@ class Api{
 
     static function call($apiName,$params){
         $ch = curl_init();
-        $header = "Content-type: text/xml";
+        $header = "Content-type: text/html";
         $post_data = $params;
         $post_data['method'] = $apiName;
-
         $url = BASE_URL.'/index.php/api';
 
         //curl将会获取url站点的内容,设置URL和相应的选项

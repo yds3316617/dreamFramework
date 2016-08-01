@@ -2,13 +2,21 @@
 <html>
 <head>
 <title>ChinaZ</title>
- <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" 
+        <meta charset="utf-8">
+        <!--  为了让 IE 浏览器运行最新的渲染模式下 -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--  可以让部分国产浏览器默认采用高速模式渲染页面 -->
+        <meta name="renderer" content="webkit">
+        <!-- 移动设备优先  user-scalable禁用缩放功能 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" 
  media="screen">
- <link href="{$__static_url}/site/css/style.css" rel='stylesheet' type='text/css' />
-  <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <link href="{$__static_url}/site/css/style.css" rel='stylesheet' type='text/css' />
+           <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
 
 </head>
 <body>
@@ -57,7 +65,7 @@
         
         $.post("{$__base_url}/adminDoLogin.html",$("#loginform").serialize(),
         function(rs){
-            console.log(rs);
+//            console.log(rs);
             if(rs.succ){
                 location.href = rs.data.nextUrl;
             }else{

@@ -31,7 +31,7 @@ class KVStore{
     }
 
     function delete($key){
-        $this->kvObject->delete($key);
+        return $this->kvObject->delete($key);
     }
 
     function flush(){

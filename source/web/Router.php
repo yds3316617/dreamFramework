@@ -9,13 +9,22 @@ require("/interface/IRouter.php");
 
         function __construct(){
             $this->urlMap = array(
+            	/*******************后台*****************************/
                 'adminLogin'=>'Controller_Admin_IndexController:login@Site',
                 #后台首页
                 'adminIndex'=>'Controller_Admin_IndexController:adminIndex@Site',
-                #登录认证
+                #后台登录认证
                 'adminDoLogin'=>'Controller_Admin_IndexController:doLogin@Site',
-                
+                #后台注销
+                'adminDoLoginout'=>'Controller_Admin_IndexController:doLoginout@Site',
+                #后台商品品牌列表
+                'adminBrandList'=>'Controller_Admin_BrandController:index@Site',
+                #后台品牌编辑
+                'adminBrandEdit'=>'Controller_Admin_BrandController:edit@Site',
 
+
+
+				/*******************前台*****************************/
                 #首页
                 'index'=>'Controller_Site_IndexController:index@Site',
                 #店铺页
@@ -60,6 +69,7 @@ require("/interface/IRouter.php");
                 $return['dir'] = '';
                 $return['method'] = 'parseApi';
                 $return['classinfo'] = 'Api@Core';
+				$return['pathinfo'] = $pathInfo;
 
                 return $return;
             }
@@ -92,6 +102,7 @@ require("/interface/IRouter.php");
                 $return['method'] = $methodName;
                 $return['params'] = $params;
                 $return['classinfo'] = str_replace(":$methodName",'',$this->urlMap[$mapKey]);
+				$return['pathinfo'] = $pathInfo;
 
                 return $return;
             }else{
