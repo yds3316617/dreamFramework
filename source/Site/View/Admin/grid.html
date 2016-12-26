@@ -3,7 +3,9 @@
       <thead>
          <tr>
          	{foreach from=$columns.columns item=item}
-            	<th>{$item.lable}</th>
+                {if $item.lable}
+            	    <th>{$item.lable}</th>
+                {/if}
             {/foreach}
             
             {foreach from=$appendColumns item=aitem}
@@ -15,11 +17,20 @@
       	{foreach from=$data item=item}
          <tr>
          	    {foreach from=$columns.columns item=iitem key=colkey}
-            		<td {if $iitem.pk}pk={$colkey} value={$item[$colkey]}{/if}>{$item[$colkey]}</td>
+                    {if $iitem.lable}
+                        {if $iitem.type == 'time'}
+                            <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>{$item[$colkey]|date}
+                            </td>
+                        {else}
+                            <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>{$item[$colkey]}
+                            </td>
+                        {/if}
+            		    
+                    {/if}
               {/foreach}
               {foreach from=$appendColumns item=aitem}
             		<td>
-            			<a class="j_appendLink" shref="{$aitem.href}">{$aitem.lable}</a>
+            			<a class="j_appendLink appendLink" target="{$aitem.target}" shref="{$aitem.href}">{$aitem.lable}</a>
             		</td>
             	{/foreach}
          </tr>
@@ -27,9 +38,10 @@
         
       </tbody>
 </table>
+
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
-   aria-labelledby="myModalLabel" aria-hidden="true">
+   aria-labelledby="myModalLabel" aria-hidden="true"  data-target="#j_model_btn">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
@@ -48,7 +60,7 @@
                data-dismiss="modal">
                关闭
             </button>
-            <button type="button" class="btn btn-primary">
+            <button type="button" id="j_model_btn" class="j_model_btn btn btn-primary">
                提交更改
             </button>
          </div>
@@ -58,8 +70,7 @@
 
 
 
-<script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
-<script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
+<script src="{$__static_url}/common/js/jquery.self.validate.js"></script>
 <script>
 		//分页相关js
 		//总页数
@@ -80,7 +91,7 @@
 			$pageUl.append($liClone);
 			
 			$liClone.click(function(e){
-				goPage($(this));
+				goPage($(this).attr('pageno'));
 			});
 			
 		}
@@ -96,15 +107,57 @@
 //			console.log(val);return;
 		  var postData = 'filterCol='+pk+'&filterValue='+val+'&ajaxPage=1';
 		  var href = $(e.target).attr('shref');
+
+          var target = $(e.target).attr('target');
+          if(target == "_blank"){
+              window.open(href);
+              return;
+          }
 			$.post(href,postData,
 	        function(rs){
 	            console.log(rs);
 	            $('#myModal-body').empty().html(rs);
 	        },'html');			
 			
+			
 			$('#myModal').modal({
 				keyboard: false
 				})
 		});
+
+        //弹出框提交按钮点击事件
+        $('.j_model_btn').click(function(e){
+            var form = $('#myModal-body').find('form');
+            if(form.svalidate() == false){
+                return false;
+            }else{
+                var href = $(form).attr('action');
+                $.post(href,$(form).serialize(),
+                function(rs){
+                    console.log(rs);
+                    if(rs.code == '00'){
+                        $("#alert-danger").hide();
+                        $("#alert-success").text('succ').show();
+                        
+                        $('#myModal').modal('hide');
+
+                       // goPage(globalPage);
+
+                    }else{
+                        $("#alert-danger").text('errorcode:'+rs.code).show();
+                        $("#alert-success").hide();
+                        
+                    }
+
+
+                },'json');
+            }
+            
+        });
 		
+    //模态框关闭时 刷新数据区域
+    $('#myModal').on('hidden.bs.modal',function(e){
+        console.log(o);
+        goPage(globalPage);
+    });
 </script>

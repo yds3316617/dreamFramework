@@ -21,6 +21,13 @@ require("/interface/IRouter.php");
                 'adminBrandList'=>'Controller_Admin_BrandController:index@Site',
                 #后台品牌编辑
                 'adminBrandEdit'=>'Controller_Admin_BrandController:edit@Site',
+                'adminBrand/doEdit'=>'Controller_Admin_BrandController:doEdit@Site',
+                'adminBrand/uplogo'=>'Controller_Admin_BrandController:uplogo@Site',//异步存储logo
+
+                #后台文章列表
+                'adminArticleList'=>'Controller_Admin_ArticleController:index@Site',
+                'adminArticleEdit'=>'Controller_Admin_ArticleController:edit@Site',
+                
 
 
 
@@ -54,8 +61,10 @@ require("/interface/IRouter.php");
          * $pathInfo (Sting):"hello-123.html"
          * */
         function parse($pathInfo){
-            //去斜杠
-            $pathInfo = str_replace('/', '', $pathInfo);
+            //去掉第一个斜杠
+//            $pathInfo = str_replace('/', '', $pathInfo);
+            $pathInfo = substr($pathInfo,1);
+
             //去 .html
             $pathInfo = str_replace('.html', '', $pathInfo);
             

@@ -15,8 +15,11 @@
         
         <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" 
  media="screen">
-          <link href="{$__static_url}/site/css/style.css" rel='stylesheet' type='text/css' />
-           <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
+
+         <link href="{$__static_url}/site/css/style.css" rel='stylesheet' type='text/css' />
+         <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
+
+         <link href="{$__static_url}/common/css/chromfit.css" rel='stylesheet' type='text/css' />
 
 </head>
 <body>
@@ -24,7 +27,7 @@
 		<div class="app-location">
 			<h2>Welcome to Esuper</h2>
 			<div class="location"><img src="{$__static_url}/site/images/location.png" class="img-responsive" alt="" /></div>
-			<form autocomplete="off" id="loginform" >
+			<form autocomplete="off" id="loginform" onsubmit="return false;">
                 <div style="position:relative;">
                     <input name="username" vtype="required&&email" type="text" autocomplete="off" class="text" value="E-mail address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
                 </div>
@@ -62,7 +65,6 @@
         if($("#loginform").svalidate() == false){
             return false;
         }
-        
         $.post("{$__base_url}/adminDoLogin.html",$("#loginform").serialize(),
         function(rs){
 //            console.log(rs);

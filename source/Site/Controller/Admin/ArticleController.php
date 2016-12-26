@@ -9,7 +9,7 @@ require_once(ROOT_DIR.'/Site/Controller.php');
 require_once(ROOT_DIR.'/Site/Controller/Admin/AdminController.php');
 require_once(ROOT_DIR.'/Site/Interface/IAdminController.php');
 
-class BrandController extends AdminController implements IAdminController{
+class ArticleController extends AdminController implements IAdminController{
 
     function __construct(){
         parent::__construct();
@@ -22,7 +22,7 @@ class BrandController extends AdminController implements IAdminController{
 		$params['limit'] = 10;
 		$params['pageno'] = $_POST['pageno']?$_POST['pageno']:1;
 //		print_r($params);exit;
-		$result = Api::call('item.brand.list',$params);
+		$result = Api::call('content.article.list',$params);
 //		print_r($result);exit;
 		$result = json_decode($result,1);
 
@@ -36,13 +36,13 @@ class BrandController extends AdminController implements IAdminController{
 	
 	#设置标题
 	function getTitle(){
-		return '品牌列表';
+		return '文章列表';
 	}
 	
 	#设置列
 	function getColumns(){
 		$db = FactoryManager::singleCreateProduct('DatabaseManager@Core');
-		$rs = $db->getColumns('sysitem_brand');
+		$rs = $db->getColumns('syscontent_article');
 		
 //		print_r($rs);exit;
 		return $rs;
@@ -50,7 +50,7 @@ class BrandController extends AdminController implements IAdminController{
 	
 	#设置追加列
 	function getAppendColumns(){
-		$rs[] = array('column'=>'操作','lable'=>'编辑','href'=>BASE_URL.'/index.php/adminBrandEdit.html');
+		$rs[] = array('column'=>'操作','lable'=>'编辑','target'=>'_blank','href'=>BASE_URL.'/index.php/adminArticleEdit.html');
 		return $rs;
 	}
 	
@@ -71,13 +71,6 @@ class BrandController extends AdminController implements IAdminController{
 		echo $form;exit;
 //		display('Site/View/Admin/brandEdit.html');
 	}
-
-    /*
-    function uplogo(){
-        print_r($_FILES);exit;
-    }
-    */
-
 
     function doEdit(){
         $params['id'] = $_POST['id'];

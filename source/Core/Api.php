@@ -14,6 +14,12 @@ class Api{
             'user.admin.loginout'=>'Api_Admin_Loginout@Sysuer',
             #品牌列表
             'item.brand.list'=>'Api_Brand@Sysitem',
+            #品牌编辑
+            'item.brand.edit'=>'Api_BrandEdit@Sysitem',
+
+
+            #文章编辑
+            'content.article.list'=>'Api_Article@Syscontent',
         );
     }
 

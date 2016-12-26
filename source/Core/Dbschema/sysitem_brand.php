@@ -24,18 +24,18 @@ return array(
                         'length'=>255,
                         'width' => '50',
                     ),
-            'logo_image' => array(
-                        'lable'=>'图片ID',
-                        'type' => 'varchar',
-                        'length'=>50,
-                        'width' => '50',
-                    ),
-            'intro' => array(
-                        'lable'=>'详细介绍',
-                        'type' => 'text',
-//                      'length'=>10,
-                        'width' => '50',
-                    ),
+//            'logo_image' => array(
+//                        'lable'=>'图片地址',
+//                        'type' => 'varchar',
+//                        'length'=>50,
+//                        'width' => '50',
+//                    ),
+//            'intro' => array(
+//                        'lable'=>'详细介绍',
+//                        'type' => 'text',
+////                      'length'=>10,
+//                        'width' => '50',
+//                    ),
 
         ),
 );

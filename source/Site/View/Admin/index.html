@@ -15,7 +15,21 @@
         <title>Ecsuper</title>
         <!-- Bootstrap -->
         <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
+
+        <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
+        <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
+
+        <script>
+            var globalPage = 1;//全局GridUrl 用于刷新gird
         
+        </script>
+
+        <style>
+            a{
+                cursor:pointer;
+            }
+        </style>
         
     </head>
     
@@ -84,7 +98,7 @@
 
         <!--/.fluid-container-->
         
-        <script>
+<script>
         
         //注销账号
         $('#signout').click(function(e){
@@ -119,19 +133,21 @@
 			$pageUl.append($liClone);
 			
 			$liClone.click(function(e){
-				goPage($(this));
+				goPage($(this).attr('pageno'));
 			});
 			
 		}
 		$pageUl.append(rightPage);
 		
 		//分页点击
-		function goPage(pageLi){
-			var $pageno = pageLi.attr('pageno');
+		function goPage(pageno){alert(1233);
+			var $pageno = pageno?pageno:1;
 			var postData = $('#form_admin').serialize()+'&ajaxPage=1&pageno='+$pageno;
 			$.post("{$curpath}",postData,
 	        function(rs){
+                globalPage = $pageno;
 //	            console.log(rs);
+
 	            $("#table-responsive").html(rs);
 	        },'html');
 //			console.log(pageLi.attr('pageno'));
@@ -143,8 +159,8 @@
 		//搜索项默认选中第一个
 		$($(".j_searchLi")[0]).click();
 		$('#filterValue').bind('keypress',function(){
-			$('#btn_search').click();
-			return false;
+			//$('#btn_search').click();
+			//return false;
 		});
 		//选择某个筛选项,触发事件
 		function selectFilterOptions(obj){
@@ -152,6 +168,7 @@
 			var $filter = $(obj).attr('cols')+'|'+$(obj).attr('searchtype');
 			$('#filterCol').attr('value',$filter);
 		}
+
 		//点击搜素按钮执行搜素
 		$('#btn_search').click(function(e){
 			var postData = $('#form_admin').serialize()+'&ajaxPage=1';

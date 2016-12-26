@@ -90,4 +90,11 @@ class AdminController extends Controller implements IAdminController{
 	function getCurPathinfo(){
 		return $this->routeInfo['pathinfo'];
 	}
+	
+	function createFormBySchema($tableName){
+		$db = FactoryManager::singleCreateProduct('DatabaseManager@Core');
+		$rs = $db->getColumns($tableName);
+		
+		return $this->fetch('Site/View/Admin/Block/form.html');
+	}	
 }

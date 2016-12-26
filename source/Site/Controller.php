@@ -15,6 +15,10 @@ class Controller {
         function display($path){
             $this->tmplObj->display($path);
         }
+		
+		function fetch($path){
+            return $this->tmplObj->fetch($path);
+        }
 
         function assign($key,$value){
             $this->tmplObj->assign($key,$value);

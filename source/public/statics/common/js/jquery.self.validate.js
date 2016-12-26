@@ -157,9 +157,14 @@ $.fn.svalidate = function(is_self) {
                 if($('#alert-danger')){
                     $('#alert-danger').html(validatorMap[element]['msg']);
                     $('#alert-danger').removeClass('hide');
+					$('#alert-danger').show();
                 }
 
                 $(err_span).insertAfter(obj);
+
+				//暂时隐藏叉叉 样式有问题 可以改成输入框的边框 变成红色之类的。
+				$(err_span).hide();
+				obj.focus();
 
                 obj.blur( function(){
                     var op ={'self':true};

@@ -612,12 +612,16 @@ class Template {
                         break;
 
                     case 'truncate':
-                        $p = 'sub_str(' . $p . ",$s[1])";
+                        $p = 'substr(' . $p . ",$s[1])";
                         break;
 
                     case 'strip_tags':
                         $p = 'strip_tags(' . $p . ')';
                         break;
+                    case 'date':
+                        $p = "date('Y-m-d',$p)";
+                        break;
+                    
 
                     default:
                         # code...
