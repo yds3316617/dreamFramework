@@ -435,7 +435,6 @@ class Template {
 
                 case 'assign':
                     $t = $this->get_para(substr($tag, 7),0);
-
                     if ($t['value']{0} == '$')
                     {
                         /* 如果传进来的值是变量，就不用用引号 */
@@ -621,7 +620,9 @@ class Template {
                     case 'date':
                         $p = "date('Y-m-d',$p)";
                         break;
-                    
+                    case 'is_array':
+                        $p = "is_array($p)";
+                        break;
 
                     default:
                         # code...

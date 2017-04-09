@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <!--  为了让 IE 浏览器运行最新的渲染模式下 -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--  可以让部分国产浏览器默认采用高速模式渲染页面 -->
+        <meta name="renderer" content="webkit">
+        <!-- 移动设备优先  user-scalable禁用缩放功能 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Ecsuper</title>
+        <!-- Bootstrap -->
+        <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
+
+        <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
+        <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
+
+        <script>
+            var globalPage = 1;//全局GridUrl 用于刷新gird
+        
+        </script>
+
+        <style>
+            a{
+                cursor:pointer;
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        
+        <!-- div class="container">
+          ....container 类用于固定宽度并支持响应式布局的容器。
+        </div>
+
+        <div class="container-fluid">
+          ....container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。
+        </div -->
+
+<div>
+
+<nav class="navbar navbar-inverse" role="navigation">
+    {include file="View/Admin/Block/nav.html" app="Site"}
+</nav>
+
+<div class="table-responsive" >
+	<div>
+	  	<h4 class="pull-left">{$title}</h4>
+	  	<div class="pull-right" style="display:table">
+			<button type="button" id="btn_search" class="btn btn-default pull-right" style="margin-right:2px;margin-left:2px;">搜索</button>
+			<form method="post" id="form_admin">
+		  		<div class="input-group">
+		           <div class="input-group-btn">
+		              <button id="btn_searchTxt" type="button" class="btn btn-default 
+		                 dropdown-toggle" data-toggle="dropdown">
+		                 	搜索项
+		                 <span class="caret"></span>
+		              </button>
+			              <ul class="dropdown-menu">
+			              	{foreach from=$searchOptions key=key item=item}
+			                 <li searchtype="{$item.search_type}" cols="{$key}" class="j_searchLi" onclick="selectFilterOptions(this)"><a href="#">{$item.lable}</a></li>
+			                {/foreach}
+			              </ul>
+		              
+		           </div><!-- /btn-group -->
+		           <input type="text" id="filterValue" name="filterValue" class="form-control">
+		           <input type="hidden" id="filterCol"  name="filterCol" />
+		           
+		        </div><!-- /input-group -->
+	    	</form>
+	    
+	  	</div>
+	  	 
+	  </div>
+	 <div id="table-responsive">
+	 	
+	 </div> 
+	
+</div>  	
+
+</div>
+
+<ul id="pagination" class="pagination pull-right">
+  <!-- li><a href="#">&laquo;</a></li>
+  <li class="active"><a href="#">1</a></li>
+  <li class="disabled"><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">...</a></li>
+  <li><a href="#">5</a></li>
+  <li><a href="#">&raquo;</a></li -->
+</ul>
+
+        <!--/.fluid-container-->
+        
+<script>
+        
+        //注销账号
+        $('#signout').click(function(e){
+			$.post("{$__base_url}/adminDoLoginout.html",
+	        function(rs){
+	//            console.log(rs);
+	            if(rs.succ){
+	                location.href = rs.data.nextUrl;
+	            }else{
+	                $('#alert-danger').text(rs.error);
+	                $('#alert-danger').removeClass('hide');
+	            }
+	            
+	        },'json');
+		});
+		
+		//分页相关js
+		//总页数
+		var $pages = "{$pages}";
+		//分页html元素 li
+		var $pageLi = $("<li><a href='#'></a></li>");
+		//分页html元素块
+		var $pageUl = $('#pagination');
+		
+		var leftPage = $("<li><a href='#'>&laquo;</a></li>");
+		var rightPage = $("<li><a href='#'>&raquo;</a></li>");
+		$pageUl.append(leftPage);
+		for(var i=1;i<=$pages;i++){
+			var $liClone = $pageLi.clone();
+			$liClone.find('a').text(i);
+			$liClone.attr('pageno',i);
+			$pageUl.append($liClone);
+			
+			$liClone.click(function(e){
+				goPage($(this).attr('pageno'));
+			});
+			
+		}
+		$pageUl.append(rightPage);
+		
+		//分页点击
+		function goPage(pageno){
+			var $pageno = pageno?pageno:1;
+			var postData = $('#form_admin').serialize()+'&ajaxPage=1&pageno='+$pageno;
+			$.post("{$curpath}",postData,
+	        function(rs){
+                globalPage = $pageno;
+//	            console.log(rs);
+
+	            $("#table-responsive").html(rs);
+	        },'html');
+//			console.log(pageLi.attr('pageno'));
+		}
+		
+		
+		
+		/******* 搜索项相关js  *****/
+		//搜索项默认选中第一个
+		$($(".j_searchLi")[0]).click();
+		$('#filterValue').bind('keypress',function(){
+			//$('#btn_search').click();
+			//return false;
+		});
+		//选择某个筛选项,触发事件
+		function selectFilterOptions(obj){
+			$("#btn_searchTxt").text($(obj).text());
+			var $filter = $(obj).attr('cols')+'|'+$(obj).attr('searchtype');
+			$('#filterCol').attr('value',$filter);
+		}
+
+		//点击搜素按钮执行搜素
+		$('#btn_search').click(function(e){
+			var postData = $('#form_admin').serialize()+'&ajaxPage=1';
+			$.post("{$curpath}",postData,
+	        function(rs){
+//	            console.log(rs);
+	            $("#table-responsive").html(rs);
+	        },'html');
+		});
+        </script>
+    </body>
+
+</html>

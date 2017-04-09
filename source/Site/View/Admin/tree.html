@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <!--  为了让 IE 浏览器运行最新的渲染模式下 -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--  可以让部分国产浏览器默认采用高速模式渲染页面 -->
+        <meta name="renderer" content="webkit">
+        <!-- 移动设备优先  user-scalable禁用缩放功能 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Ecsuper</title>
+        <!-- Bootstrap -->
+        <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="{$__static_url}/common/css/validate.css" rel='stylesheet' type='text/css' />
+
+        <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
+        <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{$__static_url}/common/js/jquery.self.validate.js"></script>
+
+        <script>
+            var globalPage = 1;//全局GridUrl 用于刷新gird
+        
+        </script>
+
+        <style>
+            a{
+                cursor:pointer;
+            }
+            .list-group-item{
+                margin-top:2px;
+            }
+            .list-group-item:hover{
+                background-color:#ddd;
+            }
+            .glyphicon,.list-group-item{
+                cursor:pointer;
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        
+        <!-- div class="container">
+          ....container 类用于固定宽度并支持响应式布局的容器。
+        </div>
+
+        <div class="container-fluid">
+          ....container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。
+        </div -->
+
+<div>
+
+<nav class="navbar navbar-inverse" role="navigation">
+    {include file="View/Admin/Block/nav.html" app="Site"}
+</nav>
+
+<div class="table-responsive" >
+	  <div>
+	  	<h4 class="pull-left">{$title}</h4>
+
+	  </div>
+</div>
+
+
+<div style="float:left;width:33%;margin-right:2px;" class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">一级分类</h3>
+      </div>
+      <div class="panel-body">
+        <div class="j_list-group1 list-group">
+          <div type="button" class=" list-group-item j_btnadd1">添加一级分类<span cat_id="{$item.id}" style="float:right" class="glyphicon glyphicon-plus"></span></div>
+          <span>
+          {foreach from=$data key=key item=item}
+             <div type="button" data-toggle="popover" data-placement="top" data-content="提示内容" cat_id="{$item.id}"  class="j_list-group-item1 list-group-item">
+                 <label cat_id="{$item.id}">{$item.name}</label>
+
+                 <span cat_id="{$item.id}" style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span>
+                 <span style="float:right">&nbsp;&nbsp;&nbsp;</span>
+                 <span cat_id="{$item.id}" style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span>
+
+             </div>
+             
+          {/foreach}
+          
+                
+          </span>
+        </div>
+      </div>
+</div>
+
+<div style="float:left;width:33%;margin-right:2px;" class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">二级分类</h3>
+      </div>
+      <div class="panel-body">
+        <div class="j_list-group2 list-group">
+          <div type="button" class=" list-group-item j_btnadd2">添加二级分类<span style="float:right" class="glyphicon glyphicon-plus"></span></div>
+             <span id="cat2">
+                {include file="View/Admin/Item/Cat/depth2.html" app="Site"}
+             </span>
+        </div>
+      </div>
+</div>
+
+<div style="float:left;width:33%;margin-right:2px;" class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">三级分类</h3>
+      </div>
+      <div class="panel-body">
+        <div class="j_list-group2 list-group">
+          <div type="button" class="list-group-item j_btnadd3">添加三级分类<span style="float:right" class="glyphicon glyphicon-plus"></span></div>
+             <span id="cat3">
+             {include file="View/Admin/Item/Cat/depth3.html" app="Site"}
+             </span>
+        </div>
+      </div>
+</div>
+
+</div>
+
+
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true"  data-target="#j_model_btn">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" 
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               	
+            </h4>
+         </div>
+         <div class="modal-body" id="myModal-body">
+            
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">
+               关闭
+            </button>
+            <button type="button" id="j_model_btn" class="j_model_btn btn btn-primary">
+               提交更改
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+    </body>
+
+</html>
+
+<script>
+        
+        //注销账号
+        $('#signout').click(function(e){
+			$.post("{$__base_url}/adminDoLoginout.html",
+	        function(rs){
+	//            console.log(rs);
+	            if(rs.succ){
+	                location.href = rs.data.nextUrl;
+	            }else{
+	                $('#alert-danger').text(rs.error);
+	                $('#alert-danger').removeClass('hide');
+	            }
+	            
+	        },'json');
+		});
+
+        //编辑分类
+        $('body').on('click','.j_cat-edit',function(e){
+            var cat_id = $(e.target).attr('cat_id');
+            var href = "{$__base_url}/adminItemCatEdit";
+            var postData = "id="+cat_id;
+            $.post(href,postData,
+	        function(rs){
+	            $('#myModal-body').empty().html(rs);
+                $('#myModal').modal({
+				    keyboard: false
+				});
+	        },'html');
+        });
+
+        //删除分类
+        $('body').on('click','.j_cat-remove',function(e){
+            //高亮
+            $(e.target).parents().removeClass("active");
+            $(e.target).parent().addClass("active");
+
+            var cat_id = $(e.target).attr('cat_id');
+            var href = "{$__base_url}/adminItemCat/doRemove";
+            var postData = "id="+cat_id;
+            $.post(href,postData,
+	        function(rs){
+	            console.log($(e.target));
+                if(rs.code == '00'){
+                     $(e.target).parent().remove();
+                }else{
+                    $(e.target).parent().attr('data-content',rs.code);
+                    showPopover($(e.target).parent());
+                }
+	        },'json');
+        });
+
+        function showPopover(obj){
+            $("[data-toggle='popover']").popover('destroy');
+            obj.popover('show');
+        }
+
+
+        $('body').on('click','.popover-content',function(e){
+            $("[data-toggle='popover']").popover('destroy');
+        });
+        
+
+        //添加1级分类
+        $(".j_btnadd1").on('click',function(e){
+            $("#depth").attr('value',1);
+            var href = "{$__base_url}/adminItemCatAdd";
+            $.post(href,'depth=1',
+	        function(rs){
+	            $('#myModal-body').empty().html(rs);
+                $('#myModal').modal({
+				    keyboard: false
+				});
+	        },'html');
+        });
+
+        //添加2级分类
+        $(".j_btnadd2").on('click',function(e){
+            
+            var href = "{$__base_url}/adminItemCatAdd";
+            $.post(href,'depth=2',
+	        function(rs){
+	            $('#myModal-body').empty().html(rs);
+                $("#depth").attr('value',2);
+                $('#myModal').modal({
+				    keyboard: false
+				});
+	        },'html');
+        });
+
+        //添加3级分类
+        $(".j_btnadd3").on('click',function(e){
+            
+            var href = "{$__base_url}/adminItemCatAdd";
+            $.post(href,'depth=3',
+	        function(rs){
+	            $('#myModal-body').empty().html(rs);
+                $("#depth").attr('value',3);
+                $('#myModal').modal({
+				    keyboard: false
+				});
+	        },'html');
+        });
+
+        //点击分类 展示下级分类
+        $('body').on('click',".j_list-group-item1",function(e){
+            var href = "{$__base_url}/adminItemCatshowChildren";
+            var cat_id = $(e.target).attr('cat_id');
+            $(".j_list-group-item1").removeClass("active");
+            $(e.target).addClass("active");
+            $.post(href,'depth=1&cat_id='+cat_id,
+            function(rs){
+                $('#cat2').empty().html(rs);
+
+                $('.j_list-group-item2:first').click();
+            },'html');
+        });
+
+        //弹出框提交按钮点击事件
+        $('.j_model_btn').click(function(e){
+            var form = $('#myModal-body').find('form');
+            if(form.svalidate() == false){
+                return false;
+            }else{
+                var href = $(form).attr('action');
+                $.post(href,$(form).serialize(),
+                function(rs){
+//                    console.log(rs.data.name);
+                    if(rs.code == '00'){
+                        $("#alert-danger").hide();
+                        $("#alert-success").text('succ').show();
+                        $('#myModal').modal('hide');
+ 
+                        
+                        if(form.attr('id') == 'add'){
+                            //添加分类
+                            var html = '<div type="button" cat_id='+rs.data.id+' class="j_list-group-item'+$("#depth").attr('value')+' list-group-item"><label cat_id='+rs.data.id+'>'+rs.data.name+'</label><span cat_id='+rs.data.id+' style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span><span style="float:right">&nbsp;&nbsp;&nbsp;</span><span cat_id='+rs.data.id+' style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span></div>';
+
+
+                            if($("#depth").attr('value') == 1){
+                                $('.j_btnadd1').next("span").append(html);
+                            }else if($("#depth").attr('value') == 2){
+                                $('.j_btnadd2').next("span").append(html);
+                            }else if($("#depth").attr('value') == 3){
+                                $('.j_btnadd3').next("span").append(html);
+                            }
+
+                        }else{
+                            //编辑分类
+                            $('label[cat_id='+rs.data.id+"]").text(rs.data.name);
+                        }
+
+                       // goPage(globalPage);
+
+                    }else{
+                        $("#alert-danger").text('errorcode:'+rs.code).show();
+                        $("#alert-success").hide();
+                        
+                    }
+
+
+                },'json');
+            }
+            
+        });
+</script>

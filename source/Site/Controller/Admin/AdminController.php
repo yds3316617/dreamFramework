@@ -19,24 +19,25 @@ class AdminController extends Controller implements IAdminController{
 		if($_POST['filterValue'] && $_POST['filterCol']){
 			$this->filter[$_POST['filterCol']] = $_POST['filterValue'];
 		}
-        parent::__construct();
-    }
-	
-	
-	function index(){
-		
-		$libUser = FactoryManager::singleCreateProduct('Lib_Admin_User@Site');
+        $libUser = FactoryManager::singleCreateProduct('Lib_Admin_User@Site');
 		
 		if($libUser->checklogin($_COOKIE['admin']) == FALSE){
 			echo "请先登录AdminLogin";exit;
 		}
-		
+        parent::__construct();
+    }
+
+	
+	//列表展示
+	function index(){
 //		print_r($_POST);exit;
 		
 //		print_r($this->filter);exit;
 		$data = $this->getData();
 		
 		$title = $this->getTitle();
+
+        $actions = $this->getActions();
 		
 		$curPathinfo = $this->getCurPathinfo();
 		
@@ -59,6 +60,7 @@ class AdminController extends Controller implements IAdminController{
 		
 		$this->assign('columns',$this->columns);
 		$this->assign('appendColumns',$this->appendColumns);
+        $this->assign('actions',$actions);
 		
 		$this->assign('title',$title);
 		
@@ -84,6 +86,11 @@ class AdminController extends Controller implements IAdminController{
 	
 	#设置列
 	function getColumns(){
+		
+	}
+
+    #设置 头部按钮区
+	function getActions(){
 		
 	}
 	

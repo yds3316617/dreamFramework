@@ -1,0 +1,24 @@
+{foreach from=$data2.data.list key=key2 item=item2}
+    <div type="button" data-toggle="popover" data-placement="top" data-content="提示内容" class="j_list-group-item2 list-group-item" cat_id="{$item2.id}" >
+        <label cat_id="{$item2.id}">
+            {$item2.name}
+        </label>
+        <span cat_id="{$item2.id}" style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span>
+                 <span style="float:right">&nbsp;&nbsp;&nbsp;</span>
+                 <span cat_id="{$item2.id}" style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span>
+    </div>
+{/foreach}
+
+<script>
+    //添加2级分类
+    $('body').on('click',".j_list-group-item2",function(e){
+        var href = "{$__base_url}/adminItemCatshowChildren";
+        var cat_id = $(e.target).attr('cat_id');
+        $(".j_list-group-item2").removeClass("active");
+        $(e.target).addClass("active");
+        $.post(href,'cat_id='+cat_id,
+        function(rs){
+            $('#cat3').empty().html(rs);
+        },'html');
+    });
+</script>

@@ -21,6 +21,11 @@
                         {if $iitem.type == 'time'}
                             <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>{$item[$colkey]|date}
                             </td>
+                        {elseif is_array($iitem.type)}
+                            {assign var=tmp  value=$item[$colkey]}
+                            <td {if $iitem.pk}pk={$colkey} value={$item[$colkey]}{/if}>
+                                {$iitem.type[$tmp]}
+                            </td>
                         {else}
                             <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>{$item[$colkey]}
                             </td>
@@ -30,7 +35,7 @@
               {/foreach}
               {foreach from=$appendColumns item=aitem}
             		<td>
-            			<a class="j_appendLink appendLink" target="{$aitem.target}" shref="{$aitem.href}">{$aitem.lable}</a>
+            			<a  class="j_appendLink appendLink" target="{$aitem.target}" shref="{$aitem.href}">{$aitem.lable}</a>
             		</td>
             	{/foreach}
          </tr>
@@ -99,6 +104,28 @@
 		
 		
 		//编辑列按钮点击事件 弹出模态框
+		$('.j_actions').click(function(e){
+		  var postData = '';
+		  var href = $(e.target).attr('shref');
+
+          var target = $(e.target).attr('target');
+          if(target == "_blank"){
+              window.open(href);
+              return;
+          }
+			$.post(href,postData,
+	        function(rs){
+	            console.log(rs);
+	            $('#myModal-body').empty().html(rs);
+	        },'html');
+			
+			
+			$('#myModal').modal({
+				keyboard: false
+				})
+		});
+
+        //编辑列按钮点击事件 弹出模态框
 		$('.j_appendLink').click(function(e){
 			var td = $(e.target).parents('tr').find('td[pk]');
 			
@@ -106,7 +133,7 @@
 			var val = td.attr('value');
 //			console.log(val);return;
 		  var postData = 'filterCol='+pk+'&filterValue='+val+'&ajaxPage=1';
-		  var href = $(e.target).attr('shref');
+		  var href = $(e.target).attr('shref')+'?'+pk+'='+val;
 
           var target = $(e.target).attr('target');
           if(target == "_blank"){
@@ -157,7 +184,7 @@
 		
     //模态框关闭时 刷新数据区域
     $('#myModal').on('hidden.bs.modal',function(e){
-        console.log(o);
+        //console.log(o);
         goPage(globalPage);
     });
 </script>

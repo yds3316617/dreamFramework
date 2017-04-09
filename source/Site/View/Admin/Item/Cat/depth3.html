@@ -1,0 +1,15 @@
+{foreach from=$data3.data.list key=key3 item=item3}
+<div type="button" cat_id="{$item3.id}" data-toggle="popover" data-placement="top" data-content="提示内容" class="j_list-group-item3 list-group-item">
+    <label cat_id="{$item3.id}">{$item3.name}</label>
+    
+                <span cat_id="{$item3.id}" style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span>
+                 <span style="float:right">&nbsp;&nbsp;&nbsp;</span>
+                 <span cat_id="{$item3.id}" style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span>
+                 <span style="float:right">&nbsp;&nbsp;&nbsp;</span>
+                 <span style="float:right">&nbsp;&nbsp;&nbsp;</span>
+                 <span cat_id="{$item3.id}" style="float:right" class="j_cat-prop glyphicon glyphicon-book"></span>
+
+
+
+</div>
+{/foreach}

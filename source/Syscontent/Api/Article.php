@@ -8,16 +8,14 @@ class Article implements IApi{
     var $code;
     
     function api($params){
-        
         $filter = json_decode($params['filter'],1);
+        
 		$columns = $params['columns']?$params['columns']:'*';
 		$limit = intval($params['limit'])?intval($params['limit']):10;
 		$pageno = intval($params['pageno'])?intval($params['pageno']):1;
-//		print_r($params);exit;
         $mdl_article = FactoryManager::singleCreateProduct('Model_Article@Syscontent');
         $result['list'] = $mdl_article->getList($columns,$filter,$mdl_article->tableName,$limit,$pageno);
 		$result['total'] = $mdl_article->count($filter);
-		
    
         if($result){
             $this->code = '00';

@@ -27,6 +27,32 @@ require("/interface/IRouter.php");
                 #后台文章列表
                 'adminArticleList'=>'Controller_Admin_ArticleController:index@Site',
                 'adminArticleEdit'=>'Controller_Admin_ArticleController:edit@Site',
+                'adminArticle/doEdit'=>'Controller_Admin_ArticleController:doEdit@Site',
+
+
+                #后台商品列表
+                'adminItemList'=>'Controller_Admin_ItemController:index@Site',
+                'adminItemEdit'=>'Controller_Admin_ItemController:edit@Site',
+                'adminItem/doEdit'=>'Controller_Admin_ItemController:doEdit@Site',
+
+                #后台商品分类列表
+                'adminItemCatList'=>'Controller_Admin_ItemCatController:index@Site',
+                'adminItemCatEdit'=>'Controller_Admin_ItemCatController:edit@Site',
+                'adminItemCat/doRemove'=>'Controller_Admin_ItemCatController:doRemove@Site',
+                'adminItemCat/doEdit'=>'Controller_Admin_ItemCatController:doEdit@Site',
+                'adminItemCatAdd'=>'Controller_Admin_ItemCatController:add@Site',
+                'adminItemCat/doAdd'=>'Controller_Admin_ItemCatController:doAdd@Site',
+                #后台显示子分类
+                'adminItemCatshowChildren'=>'Controller_Admin_ItemCatController:showChildren@Site',
+
+                #后台规格属性列表
+                'adminPropList'=>'Controller_Admin_ItemPropController:index@Site',
+                'adminPropAdd'=>'Controller_Admin_ItemPropController:add@Site',
+                'adminPropEdit'=>'Controller_Admin_ItemPropController:edit@Site',
+                'adminItemProp/doAdd'=>'Controller_Admin_ItemPropController:doAdd@Site',
+                'adminItemProp/doEdit'=>'Controller_Admin_ItemPropController:doEdit@Site',
+                
+                
                 
 
 

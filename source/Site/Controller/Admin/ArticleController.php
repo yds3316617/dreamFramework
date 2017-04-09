@@ -56,27 +56,27 @@ class ArticleController extends AdminController implements IAdminController{
 	
 	#点击编辑按钮展现界面
 	function edit(){
-		$params['filter'] = json_encode($this->filter);
-		$result = Api::call('item.brand.list',$params);
+		$params['filter'] = json_encode(array('id'=>$_GET['id']));
+        
+		$result = Api::call('content.article.list',$params);
 //		print_r($result);exit;
-		$tableName = 'sysitem_brand';
+
 
         $this->assign('result',json_decode($result,1));
 
 //print_r(json_decode($result,1));exit;
 		
-		return $this->display('Site/View/Admin/brandEdit.html');
-		$form = $this->createFormBySchema($tableName);
-
-		echo $form;exit;
-//		display('Site/View/Admin/brandEdit.html');
+		return $this->display('Site/View/Admin/articleEdit.html');
 	}
 
     function doEdit(){
         $params['id'] = $_POST['id'];
-        $params['brandname'] = $_POST['brandname'];
-        $params['brief'] = $_POST['brief'];
-        $result = Api::call('item.brand.edit',$params);
+        $params['title'] = $_POST['title'];
+        $params['createtime'] = strtotime($_POST['createtime']);
+        $params['ispublic'] = $_POST['ispublic'];
+        $params['cat_id'] = $_POST['cat_id'];
+        $params['content'] = $_POST['content'];
+        $result = Api::call('content.article.edit',$params);
         $jsresult = json_decode($result,1);
 
 

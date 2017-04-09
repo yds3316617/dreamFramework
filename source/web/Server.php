@@ -29,6 +29,7 @@ require_once("/interface/IServer.php");
             //print_r($objClass->$method());exit;
             
             $objClass->routeInfo = $routeInfo;
+
             $objClass->$method();
 			
 //            echo "跑起来！";
@@ -41,10 +42,12 @@ require_once("/interface/IServer.php");
 //          print_r($_SERVER);exit;
             $pathInfo = $_SERVER['PATH_INFO'];
             if(empty($pathInfo)){
+                header("Content-type: text/html; charset=utf-8");
                 echo '服务器不支持path_info';exit;
             }else{
                 $objRouter = $this->objRouter->parse($pathInfo);
                 if($objRouter === FALSE){
+                    header("Content-type: text/html; charset=utf-8");
                     echo '非法路径';exit;
                 }else{
                     return $objRouter;

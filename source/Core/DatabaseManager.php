@@ -64,7 +64,7 @@ class DatabaseManager {
 		
         $page = $page>0?($page-1):0;
         $this->_select($cols,$tableName)->join($join)->_where($filter)->_orderby($orderby)->_limit($limit,$limit*$page);
-
+//error_log(var_export($this->cur_sql,1),3,'E:/1.txt');
         $statement = $this->connection->prepare($this->cur_sql);
         
         $statement->execute();
@@ -158,8 +158,9 @@ class DatabaseManager {
     function add($data){
         if($link = $this->connect()){
             $this->cur_sql = $sql = $this->getInsertSql($data);
-            $resouce = $this->connection->exec($sql);
 //error_log(var_export($sql,1),3,'E:/1.txt');
+            $resouce = $this->connection->exec($sql);
+
             $id = $this->connection->lastInsertId();//双主键此处返回值为0
 
             return $id;
@@ -172,7 +173,7 @@ class DatabaseManager {
     function update($filter,$data){
         if($link = $this->connect()){
             $sql = $this->getUpdateSql($filter,$data);
-
+//error_log(var_export($sql),3,'E:/1.txt');
             $resouce = $this->connection->exec($sql);
             if($resouce) return true;
 
@@ -185,11 +186,17 @@ class DatabaseManager {
 
 
     function getInsertSql($data){
+        array_filter($data);
+        array_walk($data,array($this,'sqlFilter'));
         $keys = implode(',',array_keys($data));
         $values = implode(',',array_values($data));
         $sql = 'insert into '.$this->tableName.'('.$keys.')'.'values '.'('.$values.')';
 
         return $sql;
+    }
+
+    function sqlFilter(&$item,&$key){
+        $item = '"'.$item.'"';
     }
 
     function _update($data){

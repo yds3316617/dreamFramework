@@ -12,14 +12,34 @@ class Api{
             'user.admin.checklogin'=>'Api_Admin_CheckLogin@Sysuer',
             #后台注销
             'user.admin.loginout'=>'Api_Admin_Loginout@Sysuer',
+
             #品牌列表
             'item.brand.list'=>'Api_Brand@Sysitem',
             #品牌编辑
             'item.brand.edit'=>'Api_BrandEdit@Sysitem',
 
+            #商品列表
+            'item.item.list'=>'Api_Item@Sysitem',
+            #商品分类列表
+            'item.cat.list'=>'Api_ItemCat@Sysitem',
 
-            #文章编辑
+            #分类编辑
+            'item.cat.edit'=>'Api_ItemCatEdit@Sysitem',
+            #分类添加
+            'item.cat.add'=>'Api_ItemCatAdd@Sysitem',
+            #分类删除
+            'item.cat.remove'=>'Api_ItemCatRemove@Sysitem',
+
+            #商品属性列表
+            'item.prop.list'=>'Api_ItemProp@Sysitem',
+            #商品属性编辑
+            'item.prop.edit'=>'Api_ItemPropEdit@Sysitem',
+
+
+            #文章列表
             'content.article.list'=>'Api_Article@Syscontent',
+            #文章编辑
+            'content.article.edit'=>'Api_ArticleEdit@Syscontent',
         );
     }
 
@@ -37,7 +57,6 @@ class Api{
 
         if($classInfo){
             $class = FactoryManager::createProduct($classInfo);
-            
             $data = $class->Api($params);
             if($data){
                 return $this->success('00',$data);
