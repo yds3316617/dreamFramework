@@ -51,6 +51,8 @@ require("/interface/IRouter.php");
                 'adminPropEdit'=>'Controller_Admin_ItemPropController:edit@Site',
                 'adminItemProp/doAdd'=>'Controller_Admin_ItemPropController:doAdd@Site',
                 'adminItemProp/doEdit'=>'Controller_Admin_ItemPropController:doEdit@Site',
+                'adminItemProp/doRemoveValue'=>'Controller_Admin_ItemPropController:doRemoveValue@Site',//删除规格值
+               'adminItemProp/doRemove'=>'Controller_Admin_ItemPropController:doRemove@Site',//删除规格
                 
                 
                 

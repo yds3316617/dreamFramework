@@ -32,8 +32,14 @@ class Api{
 
             #商品属性列表
             'item.prop.list'=>'Api_ItemProp@Sysitem',
+            #商品属性添加
+            'item.prop.add'=>'Api_ItemPropAdd@Sysitem',
             #商品属性编辑
             'item.prop.edit'=>'Api_ItemPropEdit@Sysitem',
+            #商品属性删除
+            'item.prop.remove'=>'Api_ItemPropRemove@Sysitem',
+            #商品属性值删除
+            'item.propvalue.remove'=>'Api_ItemPropValueRemove@Sysitem',
 
 
             #文章列表

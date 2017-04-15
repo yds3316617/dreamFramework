@@ -12,6 +12,9 @@
 <script>
     //添加2级分类
     $('body').on('click',".j_list-group-item2",function(e){
+        if(!$(e.target).hasClass('list-group-item')){
+                return;
+            }
         var href = "{$__base_url}/adminItemCatshowChildren";
         var cat_id = $(e.target).attr('cat_id');
         $(".j_list-group-item2").removeClass("active");

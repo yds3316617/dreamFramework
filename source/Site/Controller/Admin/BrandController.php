@@ -50,7 +50,7 @@ class BrandController extends AdminController implements IAdminController{
 	
 	#设置追加列
 	function getAppendColumns(){
-		$rs[] = array('column'=>'操作','lable'=>'编辑','href'=>BASE_URL.'/index.php/adminBrandEdit.html');
+		$rs[] = array('column'=>'操作','lable'=>'编辑','target'=>'dialog','href'=>BASE_URL.'/index.php/adminBrandEdit.html');
 		return $rs;
 	}
 	

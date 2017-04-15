@@ -1,10 +1,9 @@
-<form action="{$__base_url}/adminItemProp/doEdit" class="form-horizontal" role="form">
+<form action="{$__base_url}/adminItemProp/doAdd" class="form-horizontal" role="form">
    <div class="form-group">
 
       <label for="firstname" class="col-sm-2 control-label">属性名称:</label>
       <div class="col-sm-10">
-         <input vtype="required" type="text" value="{$result.data.list.0.name}"  name="name" class="form-control" id="firstname" 
-            placeholder="请输入分类名">
+         <input vtype="required" type="text" value=""  name="name" class="form-control" id="firstname" placeholder="请输入属性名称">
       </div>
    </div>
 
@@ -13,7 +12,7 @@
       <label for="firstname" class="col-sm-2 control-label">属性类型</label>
       <div class="col-sm-10">
             <label class="checkbox-inline">
-                <input type="radio" name='prop_type' value="sale"  />
+                <input type="radio" name='prop_type' value="sale" checked='checked' />
                 销售属性
             </label>
              <label class="checkbox-inline">
@@ -30,7 +29,7 @@
 
       <div class="col-sm-10">
         <table class="table table-bordered">
-            <caption><button class="btn j_addPropValue" type="button">添加规格值</button></caption>
+            <caption><button class="btn btn-primary j_btn_addPropValue" type="button">添加规格值</button></caption>
             <thead>
                 <tr>
                     <th>规格值名称</th>
@@ -39,19 +38,19 @@
                     <th style="width:10%">操作</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
+            <tbody id="j_tbody_propvalue">
+                <tr id="j_tr_propvalue">
                     <td>
-                        <input vtype="required" type="text" value=""  name="newprop_values[]" class="form-control" >
+                        <input vtype="required" type="text" value=""  name="newprop_values[name][]" class="form-control" >
                     </td>
                     <td>
-                        <input vtype="required" type="text" value=""  name="newprop_values[]" class="form-control" >
+                        <input vtype="required" type="text" value=""  name="newprop_values[extra_name][]" class="form-control" >
                     </td>
                     <td>
-                        <input vtype="required" type="text" value="" name="newprop_values[]" class="form-control"  >
+                        <input vtype="required" type="text" value="" name="newprop_values[order_by][]" class="form-control"  >
                     </td>
                     <td>
-                        <a cat_id="1" style="border:none;cursor:hand" class="j_cat-remove glyphicon glyphicon-remove form-control"></a>
+                        <a  style="border:none;cursor:hand" class="j_cat_remove glyphicon glyphicon-remove form-control"></a>
                     </td>
                 </tr>
             </tbody>
@@ -65,3 +64,23 @@
    <div id="alert-danger" class="alert alert-danger alert-dismissable " style="display:none"></div>
    <div id="alert-success" class="alert alert-success" style="display:none"></div>
 </form>
+
+<script>
+    //添加规格值 输入框
+    $('.j_btn_addPropValue').bind('click',function(e){
+         var tr_clone = $('#j_tr_propvalue').clone();
+         tr_clone.appendTo($('#j_tbody_propvalue'));
+         
+    });
+
+    //移除本行
+    $('#j_tbody_propvalue').on('click','.j_cat_remove',function(e){
+         var tr = $(this).parents('tr');
+         if($('.j_cat_remove').length == 1){
+            $('#alert-danger').text('请至少保留一个属性值');
+            $('#alert-danger').show();
+            return;
+         }
+         tr.remove();
+    });
+</script>

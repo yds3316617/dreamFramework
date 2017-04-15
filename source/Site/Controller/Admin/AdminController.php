@@ -15,6 +15,7 @@ class AdminController extends Controller implements IAdminController{
 	var $filter = array();
     function __construct(){
     	$this->columns = $this->getColumns();
+        
 		$this->appendColumns = $this->getAppendColumns();
 		if($_POST['filterValue'] && $_POST['filterCol']){
 			$this->filter[$_POST['filterCol']] = $_POST['filterValue'];
@@ -27,12 +28,23 @@ class AdminController extends Controller implements IAdminController{
         parent::__construct();
     }
 
+    function getPkCol(){
+        foreach($this->columns['columns'] as $k=>$v){
+            if($v['pk']){
+                return $k;
+            }
+        }
+    }
+
 	
 	//列表展示
 	function index(){
 //		print_r($_POST);exit;
+
+        $pk = $this->getPkCol();
+        $this->assign('pk',$pk);
 		
-//		print_r($this->filter);exit;
+//		print_r($pk->filter);exit;
 		$data = $this->getData();
 		
 		$title = $this->getTitle();

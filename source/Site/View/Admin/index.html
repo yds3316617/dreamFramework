@@ -78,10 +78,13 @@
 	  	</div>
 	  </div>
 
+     <!-- 头部按钮-->
       {if $actions}
         <div style="clear:both">
             {foreach from=$actions item=aitem key=akey}
                 {if $aitem.target == 'dialog'}
+                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title}</button>
+                {elseif $aitem.target == 'submit'}
                     <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title}</button>
                 {/if}
             {/foreach}

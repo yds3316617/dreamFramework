@@ -14,11 +14,11 @@
       <label for="firstname" class="col-sm-2 control-label">属性类型</label>
       <div class="col-sm-10">
             <label class="checkbox-inline">
-                <input type="radio" name='prop_type' value="sale"  />
+                <input type="radio" name='prop_type' value="sale" {if $result.data.list.0.prop_type == 'sale'}checked{/if} />
                 销售属性
             </label>
              <label class="checkbox-inline">
-                <input type="radio"  name='prop_type'  value="nature"  >
+                <input type="radio"  name='prop_type'  value="nature"  {if $result.data.list.0.prop_type == 'nature'}checked{/if}>
                 自然属性
             </label>
          
@@ -26,36 +26,37 @@
    </div>
 
    <div class="form-group">
-      <div class="col-sm-10">
-         <button class="btn" type="button">添加规格值</button>
-      </div>
-
-   </div>
-
-   <div class="form-group">
 
       <div class="col-sm-10">
         <table class="table table-bordered">
-            <caption>边框表格布局</caption>
+            <caption>
+                <button class="btn btn-primary j_btn_addPropValue" type="button">添加规格值</button>
+            </caption>
             <thead>
                 <tr>
                     <th>规格值名称</th>
                     <th>规格值别名</th>
-                    <th>排序</th>
+                    <th style="width:15%">排序</th>
+                    <th style="width:10%">操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="j_tbody_propvalue">
+               {foreach from=$result.data.list.0.prop_values item=item key=key}
                 <tr>
                     <td>
-                        <input vtype="required" type="text" value="{$result.data.list.0.name}"  name="prop_values[]" class="form-control" id="firstname" >
+                        <input vtype="required" type="text" value="{$item.name}"  name="prop_values[name][{$item.id}]" class="form-control"  >
                     </td>
                     <td>
-                        <input vtype="required" type="text" value="{$result.data.list.0.name}"  name="name" class="form-control" id="firstname" >
+                        <input vtype="required" type="text" value="{$item.extra_name}"  name="prop_values[extra_name][{$item.id}]" class="form-control"  >
                     </td>
                     <td>
-                        <input vtype="required" type="text" value="{$result.data.list.0.name}"  name="name" class="form-control" id="firstname" >
+                        <input vtype="required" type="text" value="{$item.order_by}"  name="prop_values[order_by][{$item.id}]" class="form-control"  >
+                    </td>
+                    <td>
+                        <a  style="border:none;cursor:hand" prop_value_id={$item.id} class="j_cat_remove glyphicon glyphicon-remove form-control"></a>
                     </td>
                 </tr>
+                {/foreach}
             </tbody>
         </table>
       </div>
@@ -67,3 +68,41 @@
    <div id="alert-danger" class="alert alert-danger alert-dismissable " style="display:none"></div>
    <div id="alert-success" class="alert alert-success" style="display:none"></div>
 </form>
+
+<script>
+    var trdemo = '<tr id="j_tr_propvalue"><td><input vtype="required" type="text" value=""  name="newprop_values[name][]" class="form-control" ></td><td><input vtype="required" type="text" value=""  name="newprop_values[extra_name][]" class="form-control" ></td><td><input vtype="required" type="text" value="" name="newprop_values[order_by][]" class="form-control"  ></td><td><a  style="border:none;cursor:hand" class="j_cat_remove glyphicon glyphicon-remove form-control"></a></td></tr>';
+
+    //添加规格值 输入框
+    $('.j_btn_addPropValue').bind('click',function(e){
+         var tr_clone = $(trdemo).clone();
+         tr_clone.appendTo($('#j_tbody_propvalue'));
+    });
+
+    //移除本行
+    $('#j_tbody_propvalue').on('click','.j_cat_remove',function(e){
+         var tr = $(this).parents('tr');
+         if($('.j_cat_remove').length == 1){
+            $('#alert-danger').text('请至少保留一个属性值');
+            $('#alert-danger').show();
+            return;
+         }
+
+         if($(this).attr('prop_value_id')){
+             if(window.confirm('删除后无法恢复,确认删除?')){
+             var href = "{$__base_url}/adminItemProp/doRemoveValue";
+                 var prop_value_id = $(this).attr('prop_value_id');
+                 $.post(href,'prop_value_id='+prop_value_id,function(rs){
+                       if(rs.code == '00'){
+                            tr.remove();
+                        }else{
+                            $("#alert-danger").text('errorcode:'+rs.code).show();
+                        }
+                 },'json');
+             }
+         }else{
+            tr.remove();
+         }
+
+         
+    });
+</script>

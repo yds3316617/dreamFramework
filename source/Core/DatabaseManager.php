@@ -17,7 +17,7 @@ class DatabaseManager {
     private  $database = 'dreamFrameworkGithub';
 
     #数据库链接
-    private  $connection;
+    private  static $connection;
 
     #错误信息 string
     public  $error;
@@ -49,8 +49,9 @@ class DatabaseManager {
     public  function connect(){
         $dsn = "mysql:host=$this->host;dbname=$this->database;charset=utf8";
         try{
-            if(!$this->connection){
-                $this->connection = new PDO($dsn,$this->username,$this->password,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            if(!self::$connection){
+                error_log(var_export(1,1),3,'E:/1.txt');
+                self::$connection = new PDO($dsn,$this->username,$this->password,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             }
             return true;
         }catch(PDOException $e){
@@ -58,14 +59,30 @@ class DatabaseManager {
             return false;
         }
     }
-    
-    function getList($cols,$filter=array(),$tableName,$limit=-1,$page=1,$orderby=1,$join=array()){
+
+    function beginTransaction(){
         $this->connect();
-		
+        self::$connection->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+        self::$connection->beginTransaction();
+    }
+
+    function commit(){
+        self::$connection->commit();
+    }
+
+    function rollBack(){
+        self::$connection->rollBack();
+    }
+    
+    function getList($cols,$filter=array(),$tableName=null,$limit=-1,$page=1,$orderby=1,$join=array()){
+        $this->connect();
+		if(empty($tableName)){
+            $tableName = $this->tableName;
+        }
         $page = $page>0?($page-1):0;
         $this->_select($cols,$tableName)->join($join)->_where($filter)->_orderby($orderby)->_limit($limit,$limit*$page);
 //error_log(var_export($this->cur_sql,1),3,'E:/1.txt');
-        $statement = $this->connection->prepare($this->cur_sql);
+        $statement = self::$connection->prepare($this->cur_sql);
         
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -159,9 +176,9 @@ class DatabaseManager {
         if($link = $this->connect()){
             $this->cur_sql = $sql = $this->getInsertSql($data);
 //error_log(var_export($sql,1),3,'E:/1.txt');
-            $resouce = $this->connection->exec($sql);
+            $resouce = self::$connection->exec($sql);
 
-            $id = $this->connection->lastInsertId();//双主键此处返回值为0
+            $id = self::$connection->lastInsertId();//双主键此处返回值为0
 
             return $id;
         }else{
@@ -174,10 +191,10 @@ class DatabaseManager {
         if($link = $this->connect()){
             $sql = $this->getUpdateSql($filter,$data);
 //error_log(var_export($sql),3,'E:/1.txt');
-            $resouce = $this->connection->exec($sql);
-            if($resouce) return true;
+            $resouce = self::$connection->exec($sql);
+            if($resouce === false) return false;
 
-            return false;
+            return true;
         }else{
             
             //...报异常
@@ -228,8 +245,12 @@ class DatabaseManager {
     function delete($filter){
         $this->connect();
 		$this->_delete()->_where($filter);
-        $rs = $this->connection->exec($this->cur_sql);
-        return $rs;
+
+        $rs = self::$connection->exec($this->cur_sql);
+        if($rs === false){
+            return false;
+        }
+        return true;
     }
 	
 	//获取列信息
@@ -243,7 +264,7 @@ class DatabaseManager {
         $this->connect();
         
 //print_r($this->cur_sql);exit;
-        $statement = $this->connection->prepare($this->cur_sql);
+        $statement = self::$connection->prepare($this->cur_sql);
         
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);

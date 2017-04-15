@@ -202,7 +202,6 @@
             var postData = "id="+cat_id;
             $.post(href,postData,
 	        function(rs){
-	            console.log($(e.target));
                 if(rs.code == '00'){
                      $(e.target).parent().remove();
                 }else{
@@ -213,8 +212,14 @@
         });
 
         function showPopover(obj){
-            $("[data-toggle='popover']").popover('destroy');
+            $("[data-toggle='popover']").each(function(i,o){
+                console.log(o);
+                if(obj.attr('cat_id') != $(o).attr('cat_id')){
+                    $(o).popover('destroy');
+                }
+            });
             obj.popover('show');
+
         }
 
 
@@ -266,6 +271,9 @@
 
         //点击分类 展示下级分类
         $('body').on('click',".j_list-group-item1",function(e){
+            if(!$(e.target).hasClass('list-group-item')){
+                return;
+            }
             var href = "{$__base_url}/adminItemCatshowChildren";
             var cat_id = $(e.target).attr('cat_id');
             $(".j_list-group-item1").removeClass("active");
@@ -296,7 +304,7 @@
                         
                         if(form.attr('id') == 'add'){
                             //添加分类
-                            var html = '<div type="button" cat_id='+rs.data.id+' class="j_list-group-item'+$("#depth").attr('value')+' list-group-item"><label cat_id='+rs.data.id+'>'+rs.data.name+'</label><span cat_id='+rs.data.id+' style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span><span style="float:right">&nbsp;&nbsp;&nbsp;</span><span cat_id='+rs.data.id+' style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span></div>';
+                            var html = '<div type="button" data-toggle="popover" data-placement="top" cat_id='+rs.data.id+' class="j_list-group-item'+$("#depth").attr('value')+' list-group-item"><label cat_id='+rs.data.id+'>'+rs.data.name+'</label><span cat_id='+rs.data.id+' style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span><span style="float:right">&nbsp;&nbsp;&nbsp;</span><span cat_id='+rs.data.id+' style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span></div>';
 
 
                             if($("#depth").attr('value') == 1){
