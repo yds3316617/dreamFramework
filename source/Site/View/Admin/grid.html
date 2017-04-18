@@ -132,15 +132,17 @@
                     keyboard: false
                 });
           }else if(target == "submit"){
-                $.post(href,postData,
-                function(rs){
-                    if(rs.code == '00'){
-                        goPage(globalPage);
-                    }else{
+                if(postData){
+                    $.post(href,postData,
+                    function(rs){
+                        if(rs.code == '00'){
+                            goPage(globalPage);
+                        }else{
 
-                    }
-                   
-                },'json');
+                        }
+                       
+                    },'json');
+                }
           }
             
         });

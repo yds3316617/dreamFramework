@@ -1,6 +1,6 @@
 <?php
 namespace Web;
-require("/interface/IRouter.php");
+require("Interface/IRouter.php");
     /*
      * 服务器模拟类
      * */

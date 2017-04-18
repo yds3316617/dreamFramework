@@ -1,6 +1,6 @@
 <?php
 namespace Core;
-require("/interface/IFactoryManager.php");
+require("Interface/IFactoryManager.php");
 class FactoryManager implements IFactoryManager{
     private  static $classList;
     

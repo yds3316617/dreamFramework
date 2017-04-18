@@ -2,7 +2,7 @@
 namespace Sysitem\Api;
 use Core\FactoryManager;
 use Core\IApi;
-require(ROOT_DIR."Core/interface/IApi.php");
+require(ROOT_DIR."Core/Interface/IApi.php");
 
 //$params[has_propvalues];是否包含规格值信息
 class ItemProp implements IApi{

@@ -1,7 +1,7 @@
 <?php
 namespace Core;
 use PDO;
-#require("/interface/IFactoryManager.php");
+#require("interface/IFactoryManager.php");
 class DatabaseManager {
 
     #数据库主机IP或者实例名字

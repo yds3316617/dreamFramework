@@ -1,7 +1,7 @@
 <?php
 namespace Web;
 use Core\FactoryManager;
-require_once("/interface/IServer.php");
+require_once("Interface/IServer.php");
 
     /*
      * 服务器模拟类

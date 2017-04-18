@@ -3,7 +3,7 @@ namespace Sysitem\Api;
 use Core\FactoryManager;
 use Core\IApi;
 use Sysitem\Lib;
-require(ROOT_DIR."Core/interface/IApi.php");
+require(ROOT_DIR."Core/Interface/IApi.php");
 
 //$params['ids'];
 

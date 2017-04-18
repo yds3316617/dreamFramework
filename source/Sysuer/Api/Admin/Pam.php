@@ -2,7 +2,7 @@
 namespace Sysuer\Api\Admin;
 use Core\FactoryManager;
 use Core\IApi;
-require(ROOT_DIR."Core/interface/IApi.php");
+require(ROOT_DIR."Core/Interface/IApi.php");
 
 class Pam implements IApi{
     var $code;

@@ -2,7 +2,7 @@
 namespace Syscontent\Api;
 use Core\FactoryManager;
 use Core\IApi;
-require(ROOT_DIR."Core/interface/IApi.php");
+require(ROOT_DIR."Core/Interface/IApi.php");
 
 class ArticleEdit implements IApi{
     var $code;
