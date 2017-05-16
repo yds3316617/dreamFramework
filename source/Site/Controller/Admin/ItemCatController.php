@@ -207,24 +207,28 @@ class ItemCatController extends AdminController implements IAdminController{
 
         //获取关联的属性
         $params = array();
-        $params['cat_id'] = $_POST['id'];
+        $params['filter'] = json_encode(array('cat_id'=>$_POST['id']));
         $result = Api::call('item.cat.relProp',$params);
         $relprop_result = json_decode($result,1);
-        
-        foreach($relprop_result['data']['list'] as $rk=>$rv){
-            $relprop_ids[] = $rv['prop_id'];
+        $relprop_ids = array();
+        if($relprop_result){
+            foreach($relprop_result['data']['list'] as $rk=>$rv){
+                $relprop_ids[] = $rv['prop_id'];
+            }
         }
 
         
 
         $rel_prop_list = array();
         $all_prop_list = array();
-        foreach($prop_list['data']['list'] as $pk => &$pv){
-            if(in_array($pv['id'],$relprop_ids)){
-                $pv['checked'] = true;
-                $rel_prop_list[] = $pv;
-            }else{
-                $unrel_prop_list[] = $pv;
+        if($prop_list['data']['list']){
+            foreach($prop_list['data']['list'] as $pk => &$pv){
+                if(in_array($pv['id'],$relprop_ids)){
+                    $pv['checked'] = true;
+                    $rel_prop_list[] = $pv;
+                }else{
+                    $unrel_prop_list[] = $pv;
+                }
             }
         }
 
@@ -234,12 +238,15 @@ class ItemCatController extends AdminController implements IAdminController{
 
 
         $params = array();
+        $params['filter'] = json_encode(array('cat_id'=>$_POST['id']));
         $result = Api::call('item.cat.relBrand',$params);
 //        print_r($result);exit;
         $relbrand_result = json_decode($result,1);
         $relbrands = array();
-        foreach($relbrand_result['data']['list'] as $bk => $bv){
-            $relbrands[] = $bv['brand_id'];
+        if($relbrand_result['data']['list']){
+            foreach($relbrand_result['data']['list'] as $bk => $bv){
+                $relbrands[] = $bv['brand_id'];
+            }
         }
         $relbrands = implode(',',$relbrands);
         $this->assign('relbrands',$relbrands);
