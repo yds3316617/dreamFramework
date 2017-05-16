@@ -452,7 +452,6 @@ class Template {
                 case 'include':
                     $t = $this->get_para(substr($tag, 8), 0);
                     $t['file'] = $t['app'].'/'.$t['file'];
-//                    print_r($t['file']);exit;
                     return '<?php echo $this->fetch(' . "'$t[file]'" . '); ?>';
                     break;
 

@@ -50,7 +50,6 @@ class DatabaseManager {
         $dsn = "mysql:host=$this->host;dbname=$this->database;charset=utf8";
         try{
             if(!self::$connection){
-                error_log(var_export(1,1),3,'E:/1.txt');
                 self::$connection = new PDO($dsn,$this->username,$this->password,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             }
             return true;
@@ -81,9 +80,9 @@ class DatabaseManager {
         }
         $page = $page>0?($page-1):0;
         $this->_select($cols,$tableName)->join($join)->_where($filter)->_orderby($orderby)->_limit($limit,$limit*$page);
-//error_log(var_export($this->cur_sql,1),3,'E:/1.txt');
+
         $statement = self::$connection->prepare($this->cur_sql);
-        
+//        error_log(var_export($this->cur_sql,1),3,'E:/2.txt');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -102,7 +101,11 @@ class DatabaseManager {
             $sp = explode('|',$k);
 			
             if(is_array($v)){
-                $where_arr[] = $k.$this->_parseFilter('in',$v);
+                if($sp[1]){
+                    $where_arr[] = $sp[0].$this->_parseFilter($sp[1],$v);
+                }else{
+                    $where_arr[] = $k.$this->_parseFilter('in',$v);
+                }
             }elseif(empty($sp[1])){
                 $where_arr[] = $k.$this->_parseFilter('equal',$v);
             }else{
@@ -143,6 +146,7 @@ class DatabaseManager {
                                 'head'=>' like \''.$var.'%\'',
                                 'foot'=>' like \'%'.$var.'\'',
                                 'nohas'=>' not like \'%'.$var.'%\'',
+                                'notin' =>" not in (".$var.") ",
                                 );
         }else{
             $t_var = $var;
@@ -159,14 +163,19 @@ class DatabaseManager {
     function join($join){
         if(empty($join)) return $this;
         $tsql = ' ';
+        
         if(is_array($join)){
             foreach($join as $k=>$v){
                 $temp = explode('@',$v);
+                $tempJoin = explode('|',$k);
+                $k = $tempJoin[0];
+                $join = $tempJoin[1]?$tempJoin[1]:'left';
                 $tableName = $temp[0];
                 $foreignCol = $temp[0].'.'.$temp[1];
-                $t.=' left join '.$tableName.' on '.$this->tableName.'.'.$k.'='.$foreignCol.' ';
+                $t.= ' ' .$join. ' join '.$tableName.' on '.$this->tableName.'.'.$k.'='.$foreignCol.' ';
             }
         }
+
         $this->cur_sql .= $t;
         return $this;
     }
@@ -175,7 +184,6 @@ class DatabaseManager {
     function add($data){
         if($link = $this->connect()){
             $this->cur_sql = $sql = $this->getInsertSql($data);
-//error_log(var_export($sql,1),3,'E:/1.txt');
             $resouce = self::$connection->exec($sql);
 
             $id = self::$connection->lastInsertId();//双主键此处返回值为0
@@ -190,7 +198,7 @@ class DatabaseManager {
     function update($filter,$data){
         if($link = $this->connect()){
             $sql = $this->getUpdateSql($filter,$data);
-//error_log(var_export($sql),3,'E:/1.txt');
+
             $resouce = self::$connection->exec($sql);
             if($resouce === false) return false;
 
@@ -258,12 +266,12 @@ class DatabaseManager {
 		return require(ROOT_DIR.'Core/Dbschema/'.$tableName.'.php');
 	}
 
-	function count($filter){
+	function count($filter,$join=array()){
+        
         $this->cur_sql = 'select count(*) as total from '.$this->tableName;
-        $this->_where($filter);
+        $this->join($join)->_where($filter);
         $this->connect();
         
-//print_r($this->cur_sql);exit;
         $statement = self::$connection->prepare($this->cur_sql);
         
         $statement->execute();
@@ -271,7 +279,7 @@ class DatabaseManager {
 		
 		
 		return $result['total'];
-//		print_r($this->cur_sql);exit;
+
 
     }
 

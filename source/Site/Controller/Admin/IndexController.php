@@ -38,8 +38,9 @@ class IndexController extends Controller{
 	 * */
     function doLogin(){
         $result = Api::call('user.admin.login',$_POST);
+        
         $result = json_decode($result,1);
-//print_r($result);exit;
+
         if($result['code'] == '00'){
             //api会返回sess_id 需要更新sess_id
             $session = FactoryManager::singleCreateProduct('Session@Web');
@@ -64,7 +65,7 @@ class IndexController extends Controller{
 	function doLoginout(){
         $result = Api::call('user.admin.loginout',array('sess_id'=>$_COOKIE['admin']));
         $result = json_decode($result,1);
-//print_r($result);exit;
+
         if($result['code'] == '00'){
             //api会返回sess_id 需要更新sess_id
             $session = FactoryManager::singleCreateProduct('Session@Web');

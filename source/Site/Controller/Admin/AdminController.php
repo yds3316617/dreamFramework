@@ -39,7 +39,9 @@ class AdminController extends Controller implements IAdminController{
 	
 	//列表展示
 	function index(){
-//		print_r($_POST);exit;
+        if($_GET['singlePage']){
+            $this->assign('singlePage',1);
+        }
 
         $pk = $this->getPkCol();
         $this->assign('pk',$pk);
@@ -100,6 +102,11 @@ class AdminController extends Controller implements IAdminController{
 	function getColumns(){
 		
 	}
+
+    #追加列
+    function getAppendColumns(){
+
+    }
 
     #设置 头部按钮区
 	function getActions(){

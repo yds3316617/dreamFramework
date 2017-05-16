@@ -11,12 +11,12 @@ class ItemProp implements IApi{
     function api($params){
         $filter = json_decode($params['filter'],1);
 		$columns = $params['columns']?$params['columns']:'*';
-		$limit = intval($params['limit'])?intval($params['limit']):10;
+		$limit = intval($params['limit'])?intval($params['limit']):-1;
 		$pageno = intval($params['pageno'])?intval($params['pageno']):1;
 //		print_r($params);exit;
         $mdl_item_prop = FactoryManager::singleCreateProduct('Model_ItemProp@Sysitem');
         $mdl_item_prop_values = FactoryManager::singleCreateProduct('Model_ItemPropValue@Sysitem');
-//        error_log(var_export($params,1),3,'E:/1.txt');
+
         $result['list'] = $mdl_item_prop->getList($columns,$filter,$mdl_item_prop->tableName,$limit,$pageno,1);
 
         if($params['has_propvalues']){

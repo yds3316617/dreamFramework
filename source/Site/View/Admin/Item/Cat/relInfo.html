@@ -1,0 +1,128 @@
+<ul id="myTab" class="nav nav-tabs">
+   <li class="active">
+      <a href="#tab_saleprop" data-toggle="tab">
+         销售属性
+      </a>
+   </li>
+   <li>
+      <a href="#tab_natureprop" data-toggle="tab">
+         自然属性
+      </a>
+   </li>
+   <li>
+      <a href="#tab_brand" data-toggle="tab">关联品牌</a>
+   </li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+   <div class="tab-pane fade in active" id="tab_saleprop">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th style="width:30%">规格</th>
+          <th>规格值</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach from=$rel_prop_list key=key item=item}
+            {if $item.prop_type == 'sale'}
+            <tr>
+              <td>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="checkbox" checked name="prop_id[{$item.id}]"><label>{$item.name}</label>
+                    </li>
+                </ul>
+              </td>
+              <td>
+                    {foreach from=$item.prop_values key=vkey item=vitem}
+                        <label class="label label-info" style="font-size:100%">{$vitem.name}</label>
+                    {/foreach}
+              </td>
+            </tr>
+            {/if}
+        {/foreach}
+        {foreach from=$unrel_prop_list key=key item=item}
+            {if $item.prop_type == 'sale'}
+            <tr>
+              <td>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="checkbox" name="prop_id[{$item.id}]"><label>{$item.name}</label>
+                    </li>
+                </ul>
+              </td>
+              <td>
+                    {foreach from=$item.prop_values key=vkey item=vitem}
+                        <label class="label label-info" style="font-size:100%">{$vitem.name}</label>
+                    {/foreach}
+              </td>
+            </tr>
+            {/if}
+        {/foreach}
+      </tbody>
+    </table>
+
+   </div>
+
+
+   <div class="tab-pane fade in" id="tab_natureprop">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th style="width:30%">规格</th>
+          <th>规格值</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach from=$rel_prop_list key=key item=item}
+            {if $item.prop_type == 'nature'}
+            <tr>
+              <td>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="checkbox" checked name="prop_id[{$item.id}]"><label>{$item.name}</label>
+                    </li>
+                </ul>
+              </td>
+              <td>
+                    {foreach from=$item.prop_values key=vkey item=vitem}
+                        <label class="label label-info" style="font-size:100%">{$vitem.name}</label>
+                    {/foreach}
+              </td>
+            </tr>
+            {/if}
+        {/foreach}
+        {foreach from=$unrel_prop_list key=key item=item}
+            {if $item.prop_type == 'nature'}
+            <tr>
+              <td>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="checkbox" name="prop_id[{$item.id}]"><label>{$item.name}</label>
+                    </li>
+                </ul>
+              </td>
+              <td>
+                    {foreach from=$item.prop_values key=vkey item=vitem}
+                        <label class="label label-info" style="font-size:100%">{$vitem.name}</label>
+                    {/foreach}
+              </td>
+            </tr>
+            {/if}
+        {/foreach}
+      </tbody>
+    </table>
+
+   </div>
+
+   <div class="tab-pane fade" id="tab_brand">
+      <div id="brandSelector" uitype="selector" limit=10 api="item.brand.list" filter="id|notin={$relbrands}" pk="id" value="{$relbrands}">选择品牌</div>
+   </div>
+   
+</div>
+<script src="{$__static_url}/common/js/jquery.self.ui.js"></script>
+<script>
+    var UiSelector = new UiSelector($('#brandSelector'));
+    UiSelector.init();
+</script>

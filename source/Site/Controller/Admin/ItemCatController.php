@@ -2,6 +2,7 @@
 namespace Site\Controller\Admin;
 use Core\FactoryManager;
 use Core\Api;
+use Core\Tools;
 use Site\Controller;
 use Site\IAdminController;
 
@@ -19,18 +20,18 @@ class ItemCatController extends AdminController implements IAdminController{
 
     function index(){
 
-		$data = $this->getData();
-		
-		$title = $this->getTitle();
-		
-		$curPathinfo = $this->getCurPathinfo();
+        $data = $this->getData();
+        
+        $title = $this->getTitle();
+        
+        $curPathinfo = $this->getCurPathinfo();
 
         $params['limit'] = 5000;
         $params['filter'] = json_encode(array('depth'=>1));
         $result = Api::call('item.cat.list',$params);
         $result = json_decode($result,1);
 
-		$this->assign('data',$result['data']['list']);
+        $this->assign('data',$result['data']['list']);
 
         $params['filter'] = json_encode(array('depth'=>2));
         $result = Api::call('item.cat.list',$params);
@@ -41,60 +42,60 @@ class ItemCatController extends AdminController implements IAdminController{
         $result = Api::call('item.cat.list',$params);
         $result = json_decode($result,1);
         $this->assign('data3',$result['data']['list']);
-		
-		$this->assign('title',$title);
+        
+        $this->assign('title',$title);
 
-	    $this->display('Site/View/Admin/tree.html');
+        $this->display('Site/View/Admin/tree.html');
 
     }
 
 
     #展示数据
-	function getData(){
-		$columns = array_keys($this->columns['columns']);
-		$params['filter'] = json_encode($this->filter);
-		$params['limit'] = 5000;
-		$params['pageno'] = $_POST['pageno']?$_POST['pageno']:1;
+    function getData(){
+        $columns = array_keys($this->columns['columns']);
+        $params['filter'] = json_encode($this->filter);
+        $params['limit'] = 5000;
+        $params['pageno'] = $_POST['pageno']?$_POST['pageno']:1;
         $params['columns'] = '*';
-//		print_r($params);exit;
-		$result = Api::call('item.cat.list',$params);
-//		print_r($result);exit;
-		$result = json_decode($result,1);
 
-		if($result['code'] == '00'){
-			$result['data']['limit'] = $params['limit'];
-			return $result['data'];
-		}else{
-			return array();
-		}
-	}
-	
-	#设置标题
-	function getTitle(){
-		return '商品列表';
-	}
-	
-	#设置列
-	function getColumns(){
-		$db = FactoryManager::singleCreateProduct('DatabaseManager@Core');
-		$rs = $db->getColumns('sysitem_item');
-		$rs['columns']['brandname'] = array(
+        $result = Api::call('item.cat.list',$params);
+
+        $result = json_decode($result,1);
+
+        if($result['code'] == '00'){
+            $result['data']['limit'] = $params['limit'];
+            return $result['data'];
+        }else{
+            return array();
+        }
+    }
+    
+    #设置标题
+    function getTitle(){
+        return '商品列表';
+    }
+    
+    #设置列
+    function getColumns(){
+        $db = FactoryManager::singleCreateProduct('DatabaseManager@Core');
+        $rs = $db->getColumns('sysitem_item');
+        $rs['columns']['brandname'] = array(
                         'lable'=>'品牌名称',
                         'type' => 'varchar',
                         'length'=>30,
                         'width' => '30',
                     );
-		return $rs;
-	}
-	
-	#设置追加列
-	function getAppendColumns(){
-		$rs[] = array('column'=>'操作','lable'=>'编辑','target'=>'_blank','href'=>BASE_URL.'/index.php/adminItemEdit.html');
-		return $rs;
-	}
+        return $rs;
+    }
+    
+    #设置追加列
+    function getAppendColumns(){
+        $rs[] = array('column'=>'操作','lable'=>'编辑','target'=>'_blank','href'=>BASE_URL.'/index.php/adminItemEdit.html');
+        return $rs;
+    }
 
     #点击添加按钮展现界面
-	function add(){
+    function add(){
         $params['filter'] = json_encode(array('depth'=>$_POST['depth']));
 
         $depth = $_POST['depth'];
@@ -107,13 +108,13 @@ class ItemCatController extends AdminController implements IAdminController{
             $parents = json_decode($parents,1);
             $this->assign('parents',$parents);
         }
-		return $this->display('Site/View/Admin/catAdd.html');
-	}
-	
-	#点击编辑按钮展现界面
-	function edit(){
-		$params['filter'] = json_encode(array('id'=>$_POST['id']));
-		$result = Api::call('item.cat.list',$params);
+        return $this->display('Site/View/Admin/catAdd.html');
+    }
+    
+    #点击编辑按钮展现界面
+    function edit(){
+        $params['filter'] = json_encode(array('id'=>$_POST['id']));
+        $result = Api::call('item.cat.list',$params);
         $result = json_decode($result,1);
         $this->assign('result',$result);
 
@@ -129,8 +130,8 @@ class ItemCatController extends AdminController implements IAdminController{
             $this->assign('parents',$parents);
         }
 
-		return $this->display('Site/View/Admin/catEdit.html');
-	}
+        return $this->display('Site/View/Admin/catEdit.html');
+    }
 
     
     function doAdd(){
@@ -145,10 +146,10 @@ class ItemCatController extends AdminController implements IAdminController{
         $jsresult = json_decode($result,1);
 
         if($jsresult['code'] == '00'){
-			echo $result;exit;
-		}else{
-			echo $result;exit;
-		}
+            echo $result;exit;
+        }else{
+            echo $result;exit;
+        }
     }
 
 
@@ -160,10 +161,10 @@ class ItemCatController extends AdminController implements IAdminController{
         $jsresult = json_decode($result,1);
 
         if($jsresult['code'] == '00'){
-			echo $result;exit;
-		}else{
-			echo $result;exit;
-		}
+            echo $result;exit;
+        }else{
+            echo $result;exit;
+        }
     }
 
 
@@ -175,17 +176,17 @@ class ItemCatController extends AdminController implements IAdminController{
         $jsresult = json_decode($result,1);
 
         if($jsresult['code'] == '00'){
-			echo $result;exit;
-		}else{
-			echo $result;exit;
-		}
+            echo $result;exit;
+        }else{
+            echo $result;exit;
+        }
     }
 
     function showChildren(){
         $params['filter'] = json_encode(array('parent_id'=>$_POST['cat_id']));
-		$result = Api::call('item.cat.list',$params);
+        $result = Api::call('item.cat.list',$params);
         $result = json_decode($result,1);
-//print_r($result);exit;
+
         if($_POST['depth'] == 1){
             $this->assign('data2',$result);
             echo $this->display('Site/View/Admin/Item/Cat/depth2.html');exit;
@@ -193,9 +194,59 @@ class ItemCatController extends AdminController implements IAdminController{
             $this->assign('data3',$result);
             echo $this->display('Site/View/Admin/Item/Cat/depth3.html');exit;
         }
+    }
+
+    //展示和分类信息相关的 关联属性和关联品牌
+    function showRelInfo(){
+        $params = array();
+        $params['has_propvalues'] = true;
+        //获取所有属性
+        $result = Api::call('item.prop.list',$params);
+        $prop_list = json_decode($result,1);
         
 
+        //获取关联的属性
+        $params = array();
+        $params['cat_id'] = $_POST['id'];
+        $result = Api::call('item.cat.relProp',$params);
+        $relprop_result = json_decode($result,1);
         
+        foreach($relprop_result['data']['list'] as $rk=>$rv){
+            $relprop_ids[] = $rv['prop_id'];
+        }
+
+        
+
+        $rel_prop_list = array();
+        $all_prop_list = array();
+        foreach($prop_list['data']['list'] as $pk => &$pv){
+            if(in_array($pv['id'],$relprop_ids)){
+                $pv['checked'] = true;
+                $rel_prop_list[] = $pv;
+            }else{
+                $unrel_prop_list[] = $pv;
+            }
+        }
+
+        $this->assign('rel_prop_list',$rel_prop_list);
+        $this->assign('unrel_prop_list',$unrel_prop_list);
+
+
+
+        $params = array();
+        $result = Api::call('item.cat.relBrand',$params);
+//        print_r($result);exit;
+        $relbrand_result = json_decode($result,1);
+        $relbrands = array();
+        foreach($relbrand_result['data']['list'] as $bk => $bv){
+            $relbrands[] = $bv['brand_id'];
+        }
+        $relbrands = implode(',',$relbrands);
+        $this->assign('relbrands',$relbrands);
+
+
+//        $t = Tools::getFirst('');
+        echo $this->display('Site/View/Admin/Item/Cat/relInfo.html');exit;
     }
 
 }

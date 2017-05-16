@@ -22,7 +22,7 @@
 
         <script>
             var globalPage = 1;//全局GridUrl 用于刷新gird
-        
+            var globalBaseurl = '{$__base_url}';//全局baseurl
         </script>
 
         <style>
@@ -35,20 +35,14 @@
     
     <body>
         
-        <!-- div class="container">
-          ....container 类用于固定宽度并支持响应式布局的容器。
-        </div>
-
-        <div class="container-fluid">
-          ....container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。
-        </div -->
 
 <div>
 
+{if !$singlePage}
 <nav class="navbar navbar-inverse" role="navigation">
     {include file="View/Admin/Block/nav.html" app="Site"}
 </nav>
-
+{/if}
 <div class="table-responsive" >
 	  <div>
 	  	<h4 class="pull-left">{$title}</h4>
@@ -79,7 +73,7 @@
 	  </div>
 
      <!-- 头部按钮-->
-      {if $actions}
+      {if $actions && !singlePage}
         <div style="clear:both">
             {foreach from=$actions item=aitem key=akey}
                 {if $aitem.target == 'dialog'}
@@ -95,7 +89,7 @@
 	    {include file="View/Admin/grid.html" app="Site"}
 	  </div>
 
-	
+	  
 </div>
 
 </div>
@@ -111,7 +105,12 @@
 </ul>
 
         <!--/.fluid-container-->
-        
+<div style="clear:both" class="text-center">
+<button type="button" id="confirm_check" class="btn btn-primary">确认</button>
+<button type="button" onclick="window.close();" class="btn btn-primary">关闭</button>
+</div>
+    </body>
+</html>
 <script>
         
         //注销账号
@@ -192,7 +191,10 @@
 	            $("#table-responsive").html(rs);
 	        },'html');
 		});
-        </script>
-    </body>
 
-</html>
+        //选择时弹出 点击确认按钮 返回
+		$('#confirm_check').click(function(e){
+			//未完待续
+		});
+
+</script>

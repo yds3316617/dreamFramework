@@ -29,6 +29,11 @@ class Api{
             'item.cat.add'=>'Api_ItemCatAdd@Sysitem',
             #分类删除
             'item.cat.remove'=>'Api_ItemCatRemove@Sysitem',
+            #获取3级分类关联属性信息
+            'item.cat.relProp'=>'Api_ItemCatRelProp@Sysitem',
+            #获取3级分类关联的品牌信息
+            'item.cat.relBrand'=>'Api_ItemCatRelBrand@Sysitem',
+            
 
             #商品属性列表
             'item.prop.list'=>'Api_ItemProp@Sysitem',

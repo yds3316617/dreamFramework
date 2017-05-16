@@ -4,7 +4,8 @@ use Core\FactoryManager;
 use Core\IApi;
 require(ROOT_DIR."Core/Interface/IApi.php");
 
-class Item implements IApi{
+//$params[has_propvalues];是否包含规格值信息
+class ItemCatRelBrand implements IApi{
     var $code;
     
     function api($params){
@@ -13,9 +14,13 @@ class Item implements IApi{
 		$limit = intval($params['limit'])?intval($params['limit']):-1;
 		$pageno = intval($params['pageno'])?intval($params['pageno']):1;
 //		print_r($params);exit;
-        $mdl_item = FactoryManager::singleCreateProduct('Model_Item@Sysitem');
-        $result['list'] = $mdl_item->getList($columns,$filter,$mdl_item->tableName,$limit,$pageno,1,array('brand_id'=>'sysitem_brand@id'));
-		$result['total'] = $mdl_item->count($filter);
+        $mdl_item_brand = FactoryManager::singleCreateProduct('Model_Brand@Sysitem');
+        $mdl_item_cat_brand = FactoryManager::singleCreateProduct('Model_ItemCatBrand@Sysitem');
+
+        $result['list'] = $mdl_item_cat_brand->getList($columns,$filter,$mdl_item_cat_brand->tableName,$limit,$pageno,1,array('brand_id|inner'=>$mdl_item_brand->tableName.'@id'));
+
+        
+		$result['total'] = $mdl_item_cat_brand->count($filter,array('brand_id|inner'=>$mdl_item_brand->tableName.'@id'));
 		
    
         if($result){

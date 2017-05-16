@@ -129,7 +129,8 @@
                     $('#myModal-body').empty().html(rs);
                 },'html');
                  $('#myModal').modal({
-                    keyboard: false
+                    keyboard: false,
+                    backdrop:'static'
                 });
           }else if(target == "submit"){
                 if(postData){
@@ -166,7 +167,8 @@
                 function(rs){
                     $('#myModal-body').empty().html(rs);
                     $('#myModal').modal({
-                    keyboard: false
+                    keyboard: false,
+                    backdrop:'static'
                     });
                 },'html');
           }

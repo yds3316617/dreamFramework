@@ -10,13 +10,13 @@ class Brand implements IApi{
     function api($params){
         $filter = json_decode($params['filter'],1);
 		$columns = $params['columns']?$params['columns']:'*';
-		$limit = intval($params['limit'])?intval($params['limit']):10;
+		$limit = intval($params['limit'])?intval($params['limit']):-1;
 		$pageno = intval($params['pageno'])?intval($params['pageno']):1;
 //		print_r($params);exit;
         $mdl_brand = FactoryManager::singleCreateProduct('Model_Brand@Sysitem');
+
         $result['list'] = $mdl_brand->getList($columns,$filter,$mdl_brand->tableName,$limit,$pageno);
 		$result['total'] = $mdl_brand->count($filter);
-		
    
         if($result){
             $this->code = '0000';

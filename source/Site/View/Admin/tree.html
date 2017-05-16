@@ -23,7 +23,7 @@
 
         <script>
             var globalPage = 1;//全局GridUrl 用于刷新gird
-        
+            var globalBaseurl = '{$__base_url}';//全局baseurl
         </script>
 
         <style>
@@ -179,6 +179,10 @@
 
         //编辑分类
         $('body').on('click','.j_cat-edit',function(e){
+            //高亮
+            $('.j_list-group-item3').removeClass("active");
+            $(e.target).parent().addClass("active");
+
             var cat_id = $(e.target).attr('cat_id');
             var href = "{$__base_url}/adminItemCatEdit";
             var postData = "id="+cat_id;
@@ -186,7 +190,8 @@
 	        function(rs){
 	            $('#myModal-body').empty().html(rs);
                 $('#myModal').modal({
-				    keyboard: false
+				    keyboard: false,
+                    backdrop:'static'
 				});
 	        },'html');
         });
@@ -210,6 +215,27 @@
                 }
 	        },'json');
         });
+
+        //分类关联规格属性
+        $('body').on('click','.j_cat-prop',function(e){
+            //高亮
+            $('.j_list-group-item3').removeClass("active");
+            $(e.target).parent().addClass("active");
+
+            var cat_id = $(e.target).attr('cat_id');
+            var href = "{$__base_url}/adminItemCat/showRelInfo";
+            var postData = "id="+cat_id;
+            $.post(href,postData,
+	        function(rs){
+                $('#myModal-body').empty().html(rs);
+                $('#myModal').modal({
+				    keyboard: false,
+                    backdrop:'static'
+				});
+	        },'html');
+        });
+
+
 
         function showPopover(obj){
             $("[data-toggle='popover']").each(function(i,o){
@@ -236,7 +262,8 @@
 	        function(rs){
 	            $('#myModal-body').empty().html(rs);
                 $('#myModal').modal({
-				    keyboard: false
+				    keyboard: false,
+                    backdrop:'static'
 				});
 	        },'html');
         });
@@ -250,7 +277,8 @@
 	            $('#myModal-body').empty().html(rs);
                 $("#depth").attr('value',2);
                 $('#myModal').modal({
-				    keyboard: false
+				    keyboard: false,
+                    backdrop:'static'
 				});
 	        },'html');
         });
@@ -264,7 +292,8 @@
 	            $('#myModal-body').empty().html(rs);
                 $("#depth").attr('value',3);
                 $('#myModal').modal({
-				    keyboard: false
+				    keyboard: false,
+                    backdrop:'static'
 				});
 	        },'html');
         });
@@ -300,8 +329,7 @@
                         $("#alert-danger").hide();
                         $("#alert-success").text('succ').show();
                         $('#myModal').modal('hide');
- 
-                        
+
                         if(form.attr('id') == 'add'){
                             //添加分类
                             var html = '<div type="button" data-toggle="popover" data-placement="top" cat_id='+rs.data.id+' class="j_list-group-item'+$("#depth").attr('value')+' list-group-item"><label cat_id='+rs.data.id+'>'+rs.data.name+'</label><span cat_id='+rs.data.id+' style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span><span style="float:right">&nbsp;&nbsp;&nbsp;</span><span cat_id='+rs.data.id+' style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span></div>';

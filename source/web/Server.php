@@ -39,7 +39,6 @@ require_once("Interface/IServer.php");
          * 路由解析
          * */
         function parsePath(){
-//          print_r($_SERVER);exit;
             $pathInfo = $_SERVER['PATH_INFO'];
             if(empty($pathInfo)){
                 header("Content-type: text/html; charset=utf-8");

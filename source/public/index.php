@@ -7,6 +7,7 @@ define('BASE_URL', 'http://127.0.0.1/dreamFrameworkGithub/source/public');
 include('../Core/FactoryManager.php');
 include('../Core/DatabaseManager.php');
 include('../Core/Api.php');
+include('../Core/Tools.php');
 
 
 $server = FactoryManager::singleCreateProduct('Server@Web');

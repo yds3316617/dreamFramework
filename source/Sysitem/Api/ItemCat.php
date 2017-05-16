@@ -14,7 +14,7 @@ class ItemCat implements IApi{
 		$pageno = intval($params['pageno'])?intval($params['pageno']):1;
 //		print_r($params);exit;
         $mdl_item = FactoryManager::singleCreateProduct('Model_ItemCat@Sysitem');
-//        error_log(var_export($params,1),3,'E:/1.txt');
+
         $result['list'] = $mdl_item->getList($columns,$filter,$mdl_item->tableName,$limit,$pageno,1);
         
 		$result['total'] = $mdl_item->count($filter);

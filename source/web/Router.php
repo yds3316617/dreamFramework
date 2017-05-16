@@ -42,8 +42,12 @@ require("Interface/IRouter.php");
                 'adminItemCat/doEdit'=>'Controller_Admin_ItemCatController:doEdit@Site',
                 'adminItemCatAdd'=>'Controller_Admin_ItemCatController:add@Site',
                 'adminItemCat/doAdd'=>'Controller_Admin_ItemCatController:doAdd@Site',
-                #后台显示子分类
+                //后台显示子分类
                 'adminItemCatshowChildren'=>'Controller_Admin_ItemCatController:showChildren@Site',
+                //点击分类显示关联信息(品牌，和属性)
+                'adminItemCat/showRelInfo'=>'Controller_Admin_ItemCatController:showRelInfo@Site',
+
+
 
                 #后台规格属性列表
                 'adminPropList'=>'Controller_Admin_ItemPropController:index@Site',
@@ -56,6 +60,8 @@ require("Interface/IRouter.php");
                 
                 
                 
+                #后台ui控件调用
+                'adminUi/selector'=>'Controller_Admin_AdminUiController:uiSelector@Site',
 
 
 

@@ -18,7 +18,7 @@ class ItemPropRemove implements IApi{
             $this->code = '缺少参数';
             return false;
         }
-//        error_log(var_export($ids,1),3,'E:/1.txt');
+
         $lib_prop = FactoryManager::singleCreateProduct('Lib_Prop@Sysitem');
         $result = $lib_prop->remove($ids);
         

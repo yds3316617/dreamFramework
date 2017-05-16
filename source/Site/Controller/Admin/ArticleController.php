@@ -44,7 +44,6 @@ class ArticleController extends AdminController implements IAdminController{
 		$db = FactoryManager::singleCreateProduct('DatabaseManager@Core');
 		$rs = $db->getColumns('syscontent_article');
 		
-//		print_r($rs);exit;
 		return $rs;
 	}
 	
@@ -59,13 +58,9 @@ class ArticleController extends AdminController implements IAdminController{
 		$params['filter'] = json_encode(array('id'=>$_GET['id']));
         
 		$result = Api::call('content.article.list',$params);
-//		print_r($result);exit;
-
 
         $this->assign('result',json_decode($result,1));
 
-//print_r(json_decode($result,1));exit;
-		
 		return $this->display('Site/View/Admin/articleEdit.html');
 	}
 

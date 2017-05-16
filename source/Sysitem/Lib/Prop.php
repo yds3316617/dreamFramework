@@ -10,7 +10,7 @@ class Prop{
     function remove($prop_ids){
         $mdl_prop = FactoryManager::singleCreateProduct('Model_ItemProp@Sysitem');
         $mdl_prop_value = FactoryManager::singleCreateProduct('Model_ItemPropValue@Sysitem');
-//        error_log(var_export($prop_ids,1),3,'E:/1.txt');
+
         $db = FactoryManager::singleCreateProduct('DatabaseManager@Core');
         $db->beginTransaction();
         if($mdl_prop_value->delete(array('prop_id'=>$prop_ids))){

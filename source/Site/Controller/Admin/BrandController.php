@@ -21,9 +21,9 @@ class BrandController extends AdminController implements IAdminController{
 		$params['filter'] = json_encode($this->filter);
 		$params['limit'] = 10;
 		$params['pageno'] = $_POST['pageno']?$_POST['pageno']:1;
-//		print_r($params);exit;
+
 		$result = Api::call('item.brand.list',$params);
-//		print_r($result);exit;
+
 		$result = json_decode($result,1);
 
 		if($result['code'] == '00'){
@@ -58,12 +58,10 @@ class BrandController extends AdminController implements IAdminController{
 	function edit(){
 		$params['filter'] = json_encode($this->filter);
 		$result = Api::call('item.brand.list',$params);
-//		print_r($result);exit;
+
 		$tableName = 'sysitem_brand';
 
         $this->assign('result',json_decode($result,1));
-
-//print_r(json_decode($result,1));exit;
 		
 		return $this->display('Site/View/Admin/brandEdit.html');
 		$form = $this->createFormBySchema($tableName);
