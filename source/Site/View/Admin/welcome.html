@@ -1,23 +1,7 @@
 <!DOCTYPE html>
 <html>
     
-    <head>
-        <meta charset="utf-8">
-        <!--  为了让 IE 浏览器运行最新的渲染模式下 -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <!--  可以让部分国产浏览器默认采用高速模式渲染页面 -->
-        <meta name="renderer" content="webkit">
-        <!-- 移动设备优先  user-scalable禁用缩放功能 -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>Ecsuper</title>
-        <!-- Bootstrap -->
-        <link href="{$__static_url}/site/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        
-        
-    </head>
+    {dream_include file="Site/View/Admin/Block/header.html" app="Site"}
     
     <body>
         
@@ -36,71 +20,65 @@
            {dream_include file="Site/View/Admin/Block/nav.html" app="Site"}
 	</nav>
 	
-	<div class="panel panel-primary">
+	<div style="margin:20px auto;max-width:98%" class="panel panel-primary">
 		   <div class="panel-heading">
-		      <h3 class="panel-title">面板标题</h3>
+		      <h3 class="panel-title">系统通知</h3>
 		   </div>
 		   <div class="panel-body">
-		      这是一个基本的面板
+		      <p>QQ讨论 请联系715091102</p>
+              <p>FAQ    请查阅帮助手册</p>
 		   </div>
 		</div>
-		<div class="panel panel-success">
+		<div style="margin:20px auto;max-width:98%" class="panel panel-success">
 		   <div class="panel-heading">
-		      <h3 class="panel-title">面板标题</h3>
+		      <h3 class="panel-title">贡献者</h3>
 		   </div>
 		   <div class="panel-body">
-		      这是一个基本的面板
+		      <p>鼎妹妹 魏老板 钱老板 阿猫 </p>
 		   </div>
 		</div>
-		<div class="panel panel-info">
+		<div style="margin:20px auto;max-width:98%" class="panel panel-info">
 		   <div class="panel-heading">
-		      <h3 class="panel-title">面板标题</h3>
+		      <h3 class="panel-title">环境配置</h3>
 		   </div>
 		   <div class="panel-body">
-		      这是一个基本的面板
+		      <p>操作系统  <em>linux windows</em></p>
+              <p>运行环境  <em>php5.4</em></p>
+              <p>必须扩展  <em>memcached</em></p>
+              <p>web服务器 <em>nginx</em></p>
+              <p>可写目录 <em>data目录 public目录</em></p>
 		   </div>
 		</div>
-		<div class="panel panel-warning">
+		<div style="margin:20px auto;max-width:98%" class="panel panel-warning">
 		   <div class="panel-heading">
-		      <h3 class="panel-title">面板标题</h3>
+		      <h3 class="panel-title">产品介绍</h3>
 		   </div>
 		   <div class="panel-body">
-		      这是一个基本的面板
+		      <p>这是一款完全免费 开源的代码框架。帮助广大开发者快速的进行web开发。网页布局基于bootstrap jquery开发</p>
+              <p>核心理念 controller —> api -> view</p>
 		   </div>
 		</div>
-		<div class="panel panel-danger">
-		   <div class="panel-heading">
-		      <h3 class="panel-title">面板标题</h3>
-		   </div>
-		   <div class="panel-body">
-		      这是一个基本的面板
-		   </div>
-		</div>
+		
 
 	</div>
 
-
-
-        <!--/.fluid-container-->
-        <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
-        <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>
-        <script>
+<script>
         
-        //注销账号
-        $('#signout').click(function(e){
-			$.post("{$__base_url}/adminDoLoginout.html",
-	        function(rs){
-	//            console.log(rs);
-	            if(rs.succ){
-	                location.href = rs.data.nextUrl;
-	            }else{
-	                $('#alert-danger').text(rs.error);
-	                $('#alert-danger').removeClass('hide');
-	            }
-	            
-	        },'json');
-		});
-        </script>
-    </body>
+    //注销账号
+    $('#signout').click(function(e){
+        $.post("{$__base_url}/adminDoLoginout.html",
+        function(rs){
+//            console.log(rs);
+            if(rs.succ){
+                location.href = rs.data.nextUrl;
+            }else{
+                $('#alert-danger').text(rs.error);
+                $('#alert-danger').removeClass('hide');
+            }
+            
+        },'json');
+    });
+</script>
+</body>
 
 </html>
