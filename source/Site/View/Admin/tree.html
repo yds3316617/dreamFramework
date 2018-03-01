@@ -56,7 +56,8 @@
 <div>
 
 <nav class="navbar navbar-inverse" role="navigation">
-    {include file="View/Admin/Block/nav.html" app="Site"}
+    {*include file="View/Admin/Block/nav.html" app="Site"*}
+    {dream_include file="Site/View/Admin/Block/nav.html" app="Site"}
 </nav>
 
 <div class="table-responsive" >
@@ -101,7 +102,8 @@
         <div class="j_list-group2 list-group">
           <div type="button" class=" list-group-item j_btnadd2">添加二级分类<span style="float:right" class="glyphicon glyphicon-plus"></span></div>
              <span id="cat2">
-                {include file="View/Admin/Item/Cat/depth2.html" app="Site"}
+                {dream_include file="Site/View/Admin/Item/Cat/depth2.html" app="Site"}
+                {*include file="View/Admin/Item/Cat/depth2.html" app="Site"*}
              </span>
         </div>
       </div>
@@ -115,7 +117,8 @@
         <div class="j_list-group2 list-group">
           <div type="button" class="list-group-item j_btnadd3">添加三级分类<span style="float:right" class="glyphicon glyphicon-plus"></span></div>
              <span id="cat3">
-             {include file="View/Admin/Item/Cat/depth3.html" app="Site"}
+             {* include file="View/Admin/Item/Cat/depth3.html" app="Site" *}
+             {dream_include file="Site/View/Admin/Item/Cat/depth2.html" app="Site"}
              </span>
         </div>
       </div>
@@ -318,6 +321,7 @@
         //弹出框提交按钮点击事件
         $('.j_model_btn').click(function(e){
             var form = $('#myModal-body').find('form');
+            
             if(form.svalidate() == false){
                 return false;
             }else{

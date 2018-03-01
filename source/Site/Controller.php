@@ -13,6 +13,7 @@ class Controller {
         }
 
         function display($path){
+            $path = ROOT_DIR.$path;
             $this->tmplObj->display($path);
         }
 		

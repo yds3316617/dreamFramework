@@ -13,6 +13,7 @@ class User extends DatabaseManager{
     
 
         function checkLogin($username,$password){
+
             $row = $this->getList('*',array('username'=>$username),$this->tableName,1,0);
             $dataPassword = $row[0]['password'];
             $key = $row[0]['seed'];
@@ -44,6 +45,7 @@ class User extends DatabaseManager{
 
         function DESencrypt($key,$string){
             $rs = mcrypt_encrypt(MCRYPT_TripleDES,$key,$string,"ecb");
+error_log(var_export($rs,1),3,'E:/2.txt');
             return base64_encode($rs);
         }
 

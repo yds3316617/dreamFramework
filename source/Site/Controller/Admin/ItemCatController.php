@@ -234,6 +234,8 @@ class ItemCatController extends AdminController implements IAdminController{
 
         $this->assign('rel_prop_list',$rel_prop_list);
         $this->assign('unrel_prop_list',$unrel_prop_list);
+        $this->assign('cat_id',$_POST['id']);
+        
 
 
 
@@ -254,6 +256,13 @@ class ItemCatController extends AdminController implements IAdminController{
 
 //        $t = Tools::getFirst('');
         echo $this->display('Site/View/Admin/Item/Cat/relInfo.html');exit;
+    }
+
+    //保存分类关联信息
+    function saveRelInfo(){
+        print_r($_POST);exit;
+        $result = Api::call('item.cat.relBrand',$params);
+
     }
 
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ChinaZ</title>
+<title>E-super</title>
         <meta charset="utf-8">
         <!--  为了让 IE 浏览器运行最新的渲染模式下 -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,34 +26,32 @@
 	<h1></h1>
 		<div class="app-location">
 			<h2>Welcome to Esuper</h2>
-			<div class="location"><img src="{$__static_url}/site/images/location.png" class="img-responsive" alt="" /></div>
+			<!-- div class="location"><img src="{$__static_url}/site/images/location.png" class="img-responsive" alt="" /></div -->
 			<form autocomplete="off" id="loginform" onsubmit="return false;">
                 <div style="position:relative;">
-                    <input name="username" vtype="required&&email" type="text" autocomplete="off" class="text" value="E-mail address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
+                    <input name="username" vtype="required&&email" type="text" autocomplete="off" class="text" value="admin@qq.com" onfocus="this.value = '';" onblur="if (this.value == '') {
+                        this.value = '';}" >
                 </div>
 
                 <div style="position:relative;">
-				    <input name="password" vtype="required" type="password" autocomplete="off" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+				    <input name="password" vtype="required" type="password" autocomplete="off" value="admin123" onfocus="this.value = '';" onblur="if (this.value == '') {
+                    this.value = '';}">
                 </div>
 
                 <!--alert-info alert-success-->
-                <div id="alert-danger" class="alert alert-danger alert-dismissable hide">
+                <div style="max-width:30%;margin:0 auto" id="alert-danger" class="alert alert-danger alert-dismissable hide">
                     错误！请进行一些更改。
                 </div>
 
 				<div class="submit">
-                    <input type="button" onclick="goform()" value="Sign in" ></div>
+                    <input type="button" class="btn btn-default" onclick="goform()" value="Sign in" ></div>
 				<div class="clear"></div>
 				<div class="new">
 					<div class="clear"></div>
 				</div>
 			</form>
 		</div>
-	<!--start-copyright-->
-   		<div class="copy-right">
-				<p>Copyright &copy; 2016.Company name All rights reserved</p>
-		</div>
-	<!--//end-copyright-->
+
     <script src="{$__static_url}/common/js/jquery-1.11.2.js"></script>
     <script src="{$__static_url}/common/js/jquery.self.validate.js"></script>
     <script src="{$__static_url}/site/bootstrap/js/bootstrap.min.js"></script>

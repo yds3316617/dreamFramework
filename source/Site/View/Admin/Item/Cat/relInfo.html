@@ -1,3 +1,6 @@
+<form action="{$__base_url}/adminItemCat/saveRelInfo" id="add" class="form-horizontal" role="form">
+ <input type="hidden" name="cat_id" value="{$cat_id}">
+
 <ul id="myTab" class="nav nav-tabs">
    <li class="active">
       <a href="#tab_saleprop" data-toggle="tab">
@@ -117,10 +120,11 @@
    </div>
 
    <div class="tab-pane fade" id="tab_brand">
-      <div id="brandSelector" uitype="selector" limit=10 api="item.brand.list" filter="id|notin={$relbrands}" pk="id" value="{$relbrands}">选择品牌</div>
+      <div name="relbrand_id" id="brandSelector" uitype="selector" limit=10 api="item.brand.list" filter="id|notin={$relbrands}" pk="id" value="{$relbrands}">选择品牌</div>
    </div>
    
 </div>
+</form>
 <script src="{$__static_url}/common/js/jquery.self.ui.js"></script>
 <script>
     var UiSelector = new UiSelector($('#brandSelector'));

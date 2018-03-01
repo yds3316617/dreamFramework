@@ -7,6 +7,10 @@ var UiSelector = function(el,option){
         var filter = obj.attr('filter'); //过滤条件
         var pk = obj.attr('pk'); //主键
 
+        var hiddenObj = $("<input type='hidden'>");
+        hiddenObj.attr('name',obj.attr('name'));
+        hiddenObj.attr('value',value);
+        
 
         if(!globalBaseurl){
             alert('缺少globalBaseurl');
@@ -30,6 +34,7 @@ var UiSelector = function(el,option){
             $.post(url,postData,
             function(rs){
                 obj.html(rs);
+                obj.append(hiddenObj);
             },'html');
         }
 
@@ -47,6 +52,7 @@ var UiSelector = function(el,option){
                         value += ','+$(o).attr('value');
 
                         obj.value = value;
+                        hiddenObj.attr('value',value);
 
                         $(o).removeClass('j_left_li');
                         $(o).removeClass('active');
@@ -56,4 +62,40 @@ var UiSelector = function(el,option){
              });
         });
 
+        //左移按钮点击事件
+        $(obj).on('click','.j_toleft',function(e){
+             var left_group = $(obj).find('.j_left_group');
+             $(obj).find('.j_right_li').each(function(i,o){
+                  if($(o).hasClass('active')){
+                        value = _this.removeValue(value,$(o).attr('value'));
+
+                        obj.value = value;
+                        hiddenObj.attr('value',value);
+
+                        $(o).removeClass('j_right_li');
+                        $(o).removeClass('active');
+                        $(o).addClass('j_left_li');
+                        left_group.append($(o));
+                  }
+             });
+        });
+
+        _this.removeValue = function(value,needRemoveValue){
+            var arr = value.split(',');
+            $(arr).each(function(i,o){
+                 if(o == needRemoveValue){
+                    arr.splice(i,1);
+                 }
+                 if(o == 0){
+                    arr.splice(i,1);
+                 }
+            });
+            
+            var tmpvalue = 0;
+            $(arr).each(function(i,o){
+                 tmpvalue += ',' + o;
+            });
+            
+            return tmpvalue;
+        }
     };

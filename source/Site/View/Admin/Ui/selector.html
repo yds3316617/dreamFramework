@@ -2,6 +2,10 @@
 .modal-footer {
     clear:both;
 }
+
+.pagination{
+    margin:0px 0px;
+}
 </style>
 <table class="j_table table">
     <tr>
@@ -11,7 +15,7 @@
                     <h3 class="panel-title">可选列表</h3>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-group" >
+                    <ul class="list-group j_left_group" >
                         {foreach from=$leftresult.data.list item=item key=key}
                             <li value="{$item.id}" class="j_left_li list-group-item">{$item.brandname}</li>
                         {/foreach}
@@ -57,5 +61,13 @@ $('.j_table').on('click','.j_left_li',function(e){
           $(this).addClass('active');
       }
       
+});
+
+$('.j_table').on('click','.j_right_li',function(e){
+      if($(this).hasClass('active')){
+          $(this).removeClass('active');
+      }else{
+          $(this).addClass('active');
+      }
 });
 </script>
