@@ -23,8 +23,13 @@ class ArticleController extends AdminController implements IAdminController{
 		$params['pageno'] = $_POST['pageno']?$_POST['pageno']:1;
 //		print_r($params);exit;
 		$result = Api::call('content.article.list',$params);
-//		print_r($result);exit;
+
 		$result = json_decode($result,1);
+//		print_r($result);exit;
+        foreach($result['data']['list'] as $k=>$v){
+            $result['data']['list'][$k]['createtime'] = date('Y-m-d ',$result['data']['list'][$k]['createtime']);
+            $result['data']['list'][$k]['lastmodifytime'] = date('Y-m-d H:i:s',$result['data']['list'][$k]['lastmodifytime']);
+        }
 
 		if($result['code'] == '00'){
 			$result['data']['limit'] = $params['limit'];
@@ -51,6 +56,17 @@ class ArticleController extends AdminController implements IAdminController{
 	function getAppendColumns(){
 		$rs[] = array('column'=>'操作','lable'=>'编辑','target'=>'_blank','href'=>BASE_URL.'/index.php/adminArticleEdit.html');
 		return $rs;
+	}
+
+    #列表头部按钮
+    function getActions(){
+        $rs[] = array('lable'=>'新增','target'=>'blank','href'=>BASE_URL.'/index.php/adminArticleAdd.html');
+		return $rs;
+    }
+
+    #点击新增按钮展现界面
+	function add(){
+		return $this->display('Site/View/Admin/articleEdit.html');
 	}
 	
 	#点击编辑按钮展现界面

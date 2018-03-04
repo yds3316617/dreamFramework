@@ -260,8 +260,17 @@ class ItemCatController extends AdminController implements IAdminController{
 
     //保存分类关联信息
     function saveRelInfo(){
-        print_r($_POST);exit;
-        $result = Api::call('item.cat.relBrand',$params);
+        $brand_ids = explode(',',$_POST['brand_id']);
+        $params['cat_id'] = $_POST['cat_id'];
+        $params['brand_id'] = json_encode($brand_ids);
+        $params['prop_id'] = json_encode(array_keys($_POST['prop_id']));
+        $result = Api::call('item.cat.relInfo.save',$params);
+
+        if($jsresult['code'] == '00'){
+			echo $result;exit;
+		}else{
+			echo $result;exit;
+		}
 
     }
 

@@ -3,8 +3,7 @@
     
     {dream_include file="Site/View/Admin/Block/header.html" app="Site"}
     
-    <body>
-        
+<body>
 
 <div>
 
@@ -43,15 +42,24 @@
 	  </div>
 
      <!-- 头部按钮-->
-      {if $actions && !singlePage}
-        <div style="clear:both">
+      {if $actions && !$singlePage}
+        <div style="clear:both;padding-left:10px;">
+            
+  
+
             {foreach from=$actions item=aitem key=akey}
+                
                 {if $aitem.target == 'dialog'}
-                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title}</button>
+                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title|default:$aitem.lable}</button>
                 {elseif $aitem.target == 'submit'}
-                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title}</button>
+                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title|default:$aitem.lable}</button>
+                {elseif $aitem.target == '_blank' || $aitem.target == 'blank'}
+                    <a type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary " onclick="window.open('{$aitem.href}');">{$aitem.title|default:$aitem.lable}</a>
                 {/if}
+
+               
             {/foreach}
+            
         </div>
       {/if}
 

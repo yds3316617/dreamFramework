@@ -53,10 +53,21 @@ class BrandController extends AdminController implements IAdminController{
 		$rs[] = array('column'=>'操作','lable'=>'编辑','target'=>'dialog','href'=>BASE_URL.'/index.php/adminBrandEdit.html');
 		return $rs;
 	}
+
+    #列表头部按钮
+    function getActions(){
+        $rs[] = array('lable'=>'新增','target'=>'dialog','href'=>BASE_URL.'/index.php/adminBrandEdit.html');
+		return $rs;
+    }
 	
 	#点击编辑按钮展现界面
 	function edit(){
+
 		$params['filter'] = json_encode($this->filter);
+        if(empty($this->filter)){
+
+            return $this->display('Site/View/Admin/brandEdit.html');
+        }
 		$result = Api::call('item.brand.list',$params);
 
 		$tableName = 'sysitem_brand';

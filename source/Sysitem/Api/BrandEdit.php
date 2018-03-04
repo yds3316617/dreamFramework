@@ -16,7 +16,11 @@ class BrandEdit implements IApi{
 		
 		
         $mdl_brand = FactoryManager::singleCreateProduct('Model_Brand@Sysitem');
-        $result = $mdl_brand->update(array('id'=>$params['id']),$data);
+        if($params['id']){
+            $result = $mdl_brand->update(array('id'=>$params['id']),$data);
+        }else{
+            $result = $mdl_brand->add($data);
+        }
 		
    
         if($result){
