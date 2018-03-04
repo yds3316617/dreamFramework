@@ -33,6 +33,8 @@ class Api{
             'item.cat.relProp'=>'Api_ItemCatRelProp@Sysitem',
             #获取3级分类关联的品牌信息
             'item.cat.relBrand'=>'Api_ItemCatRelBrand@Sysitem',
+            #保存分类属性，品牌关联信息
+            'item.cat.relInfo.save'=>'Api_ItemCatRelInfoSave@Sysitem',
             
 
             #商品属性列表
