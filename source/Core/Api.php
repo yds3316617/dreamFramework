@@ -53,6 +53,10 @@ class Api{
             'content.article.list'=>'Api_Article@Syscontent',
             #文章编辑
             'content.article.edit'=>'Api_ArticleEdit@Syscontent',
+            #文章分类列表
+            'content.article.cat.list'=>'Api_ArticleCat@Syscontent',
+            #文章分类保存
+            'content.article.cat.save'=>'Api_ArticleCatSave@Syscontent',
         );
     }
 

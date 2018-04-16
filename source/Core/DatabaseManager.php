@@ -184,6 +184,7 @@ class DatabaseManager {
     function add($data){
         if($link = $this->connect()){
             $this->cur_sql = $sql = $this->getInsertSql($data);
+//            error_log(var_export($this->cur_sql,1),3,'E:/2.txt');
             $resouce = self::$connection->exec($sql);
 
             $id = self::$connection->lastInsertId();//双主键此处返回值为0

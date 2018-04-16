@@ -21,7 +21,7 @@ return array(
                         'lable'=>'密码',
                         'type' => 'varchar',
                         'search_type'=>'has',//搜索项
-                        'length'=>30,
+                        'length'=>50,
                         'width' => '50',
                     ),
             'name' => array(
