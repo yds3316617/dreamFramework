@@ -45,7 +45,7 @@ class ItemCatController extends AdminController implements IAdminController{
         
         $this->assign('title',$title);
 
-        $this->display('Site/View/Admin/tree.html');
+        $this->display('Site/View/Admin/ctree.html');
 
     }
 

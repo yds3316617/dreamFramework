@@ -12,6 +12,11 @@
     {dream_include file="Site/View/Admin/Block/nav.html" app="Site"}
 </nav>
 {/if}
+   <div id="alert-danger" class="alert alert-danger alert-dismissable " style="display:none">
+        <a href="#" class="close" onclick="$('#alert-danger').hide()">&times;</a>
+        <p></p>
+   </div>
+   <div id="alert-success" class="alert alert-success" style="display:none"></div>
 <div class="table-responsive" >
 	  <div>
 	  	<h4 class="pull-left">{$title}</h4>
@@ -64,7 +69,11 @@
       {/if}
 
 	  <div id="table-responsive">
-	    {dream_include file="Site/View/Admin/grid.html" app="Site"}
+        {if $tree}
+            {dream_include file="Site/View/Admin/gridTree.html" app="Site"}
+        {else}
+            {dream_include file="Site/View/Admin/grid.html" app="Site"}
+        {/if}
 	  </div>
 
 	  

@@ -2,143 +2,93 @@
 <html>
     
     {dream_include file="Site/View/Admin/Block/header.html" app="Site"}
-
-        <style>
-            a{
-                cursor:pointer;
-            }
-            .list-group-item{
-                margin-top:2px;
-            }
-            .list-group-item:hover{
-                background-color:#ddd;
-            }
-            .glyphicon,.list-group-item{
-                cursor:pointer;
-            }
-        </style>
-
     
-    <body>
-        
-        <!-- div class="container">
-          ....container 类用于固定宽度并支持响应式布局的容器。
-        </div>
-
-        <div class="container-fluid">
-          ....container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。
-        </div -->
+<body>
 
 <div>
 
+{if !$singlePage}
 <nav class="navbar navbar-inverse" role="navigation">
-    {*include file="View/Admin/Block/nav.html" app="Site"*}
     {dream_include file="Site/View/Admin/Block/nav.html" app="Site"}
 </nav>
-
+{/if}
 <div class="table-responsive" >
 	  <div>
 	  	<h4 class="pull-left">{$title}</h4>
-
+	  	<div class="pull-right" style="display:table">
+			<button type="button" id="btn_search" class="btn btn-default pull-right" style="margin-right:2px;margin-left:2px;">搜索</button>
+			<form method="post" id="form_admin">
+		  		<div class="input-group">
+		           <div class="input-group-btn">
+		              <button id="btn_searchTxt" type="button" class="btn btn-default 
+		                 dropdown-toggle" data-toggle="dropdown">
+		                 	搜索项
+		                 <span class="caret"></span>
+		              </button>
+			              <ul class="dropdown-menu">
+			              	{foreach from=$searchOptions key=key item=item}
+			                 <li searchtype="{$item.search_type}" cols="{$key}" class="j_searchLi" onclick="selectFilterOptions(this)"><a href="#">{$item.lable}</a></li>
+			                {/foreach}
+			              </ul>
+		              
+		           </div><!-- /btn-group -->
+		           <input type="text" id="filterValue" name="filterValue" class="form-control">
+		           <input type="hidden" id="filterCol"  name="filterCol" />
+		           
+		        </div><!-- /input-group -->
+	    	</form>
+	    
+	  	</div>
 	  </div>
-</div>
 
-
-<div style="float:left;width:33%;margin-right:2px;" class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">一级分类</h3>
-      </div>
-      <div class="panel-body">
-        <div class="j_list-group1 list-group">
-          <div type="button" class=" list-group-item j_btnadd1">添加一级分类<span cat_id="{$item.id}" style="float:right" class="glyphicon glyphicon-plus"></span></div>
-          <span>
-          {foreach from=$data key=key item=item}
-             <div type="button" data-toggle="popover" data-placement="top" data-content="提示内容" cat_id="{$item.id}"  class="j_list-group-item1 list-group-item">
-                 <label cat_id="{$item.id}">{$item.name}</label>
-
-                 <span cat_id="{$item.id}" style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span>
-                 <span style="float:right">&nbsp;&nbsp;&nbsp;</span>
-                 <span cat_id="{$item.id}" style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span>
-
-             </div>
-             
-          {/foreach}
-          
-                
-          </span>
-        </div>
-      </div>
-</div>
-
-<div style="float:left;width:33%;margin-right:2px;" class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">二级分类</h3>
-      </div>
-      <div class="panel-body">
-        <div class="j_list-group2 list-group">
-          <div type="button" class=" list-group-item j_btnadd2">添加二级分类<span style="float:right" class="glyphicon glyphicon-plus"></span></div>
-             <span id="cat2">
-                {dream_include file="Site/View/Admin/Item/Cat/depth2.html" app="Site"}
-                {*include file="View/Admin/Item/Cat/depth2.html" app="Site"*}
-             </span>
-        </div>
-      </div>
-</div>
-
-<div style="float:left;width:33%;margin-right:2px;" class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">三级分类</h3>
-      </div>
-      <div class="panel-body">
-        <div class="j_list-group2 list-group">
-          <div type="button" class="list-group-item j_btnadd3">添加三级分类<span style="float:right" class="glyphicon glyphicon-plus"></span></div>
-             <span id="cat3">
-             {* include file="View/Admin/Item/Cat/depth3.html" app="Site" *}
-             {dream_include file="Site/View/Admin/Item/Cat/depth2.html" app="Site"}
-             </span>
-        </div>
-      </div>
-</div>
-
-</div>
-
-
-
-
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
-   aria-labelledby="myModalLabel" aria-hidden="true"  data-target="#j_model_btn">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" 
-               aria-hidden="true">×
-            </button>
-            <h4 class="modal-title" id="myModalLabel">
-               	
-            </h4>
-         </div>
-         <div class="modal-body" id="myModal-body">
+     <!-- 头部按钮-->
+      {if $actions && !$singlePage}
+        <div style="clear:both;padding-left:10px;">
             
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" 
-               data-dismiss="modal">
-               关闭
-            </button>
-            <button type="button" id="j_model_btn" class="j_model_btn btn btn-primary">
-               提交更改
-            </button>
-         </div>
-      </div><!-- /.modal-content -->
-   </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+  
 
+            {foreach from=$actions item=aitem key=akey}
+                
+                {if $aitem.target == 'dialog'}
+                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title|default:$aitem.lable}</button>
+                {elseif $aitem.target == 'submit'}
+                    <button type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary j_actions">{$aitem.title|default:$aitem.lable}</button>
+                {elseif $aitem.target == '_blank' || $aitem.target == 'blank'}
+                    <a type="button" shref="{$aitem.href}" target={$aitem.target} class="btn btn-primary " onclick="window.open('{$aitem.href}');">{$aitem.title|default:$aitem.lable}</a>
+                {/if}
 
+               
+            {/foreach}
+            
+        </div>
+      {/if}
+
+	  <div id="table-responsive">
+	    {dream_include file="Site/View/Admin/grid.html" app="Site"}
+	  </div>
+
+	  
+</div>
+
+</div>
+
+<ul id="pagination" class="pagination pull-right">
+  <!-- li><a href="#">&laquo;</a></li>
+  <li class="active"><a href="#">1</a></li>
+  <li class="disabled"><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">...</a></li>
+  <li><a href="#">5</a></li>
+  <li><a href="#">&raquo;</a></li -->
+</ul>
+
+        <!--/.fluid-container-->
+<div style="clear:both" class="text-center">
+<button type="button" id="confirm_check" class="btn btn-primary">确认</button>
+<button type="button" onclick="window.close();" class="btn btn-primary">关闭</button>
+</div>
     </body>
-
 </html>
-
 <script>
         
         //注销账号
@@ -155,190 +105,74 @@
 	            
 	        },'json');
 		});
-
-        //编辑分类
-        $('body').on('click','.j_cat-edit',function(e){
-            //高亮
-            $('.j_list-group-item3').removeClass("active");
-            $(e.target).parent().addClass("active");
-
-            var cat_id = $(e.target).attr('cat_id');
-            var href = "{$__base_url}/adminItemCatEdit";
-            var postData = "id="+cat_id;
-            $.post(href,postData,
+		
+		//分页相关js
+		//总页数
+		var $pages = "{$pages}";
+		//分页html元素 li
+		var $pageLi = $("<li><a href='#'></a></li>");
+		//分页html元素块
+		var $pageUl = $('#pagination');
+		
+		var leftPage = $("<li><a href='#'>&laquo;</a></li>");
+		var rightPage = $("<li><a href='#'>&raquo;</a></li>");
+		$pageUl.append(leftPage);
+		for(var i=1;i<=$pages;i++){
+			var $liClone = $pageLi.clone();
+			$liClone.find('a').text(i);
+			$liClone.attr('pageno',i);
+			$pageUl.append($liClone);
+			
+			$liClone.click(function(e){
+				goPage($(this).attr('pageno'));
+			});
+			
+		}
+		$pageUl.append(rightPage);
+		
+		//分页点击
+		function goPage(pageno){
+			var $pageno = pageno?pageno:1;
+			var postData = $('#form_admin').serialize()+'&ajaxPage=1&pageno='+$pageno;
+			$.post("{$curpath}",postData,
 	        function(rs){
-	            $('#myModal-body').empty().html(rs);
-                $('#myModal').modal({
-				    keyboard: false,
-                    backdrop:'static'
-				});
+                globalPage = $pageno;
+//	            console.log(rs);
+
+	            $("#table-responsive").html(rs);
 	        },'html');
-        });
+//			console.log(pageLi.attr('pageno'));
+		}
+		
+		
+		
+		/******* 搜索项相关js  *****/
+		//搜索项默认选中第一个
+		$($(".j_searchLi")[0]).click();
+		$('#filterValue').bind('keypress',function(){
+			//$('#btn_search').click();
+			//return false;
+		});
+		//选择某个筛选项,触发事件
+		function selectFilterOptions(obj){
+			$("#btn_searchTxt").text($(obj).text());
+			var $filter = $(obj).attr('cols')+'|'+$(obj).attr('searchtype');
+			$('#filterCol').attr('value',$filter);
+		}
 
-        //删除分类
-        $('body').on('click','.j_cat-remove',function(e){
-            //高亮
-            $(e.target).parents().removeClass("active");
-            $(e.target).parent().addClass("active");
-
-            var cat_id = $(e.target).attr('cat_id');
-            var href = "{$__base_url}/adminItemCat/doRemove";
-            var postData = "id="+cat_id;
-            $.post(href,postData,
+		//点击搜素按钮执行搜素
+		$('#btn_search').click(function(e){
+			var postData = $('#form_admin').serialize()+'&ajaxPage=1';
+			$.post("{$curpath}",postData,
 	        function(rs){
-                if(rs.code == '00'){
-                     $(e.target).parent().remove();
-                }else{
-                    $(e.target).parent().attr('data-content',rs.code);
-                    showPopover($(e.target).parent());
-                }
-	        },'json');
-        });
-
-        //分类关联规格属性
-        $('body').on('click','.j_cat-prop',function(e){
-            //高亮
-            $('.j_list-group-item3').removeClass("active");
-            $(e.target).parent().addClass("active");
-
-            var cat_id = $(e.target).attr('cat_id');
-            var href = "{$__base_url}/adminItemCat/showRelInfo";
-            var postData = "id="+cat_id;
-            $.post(href,postData,
-	        function(rs){
-                $('#myModal-body').empty().html(rs);
-                $('#myModal').modal({
-				    keyboard: false,
-                    backdrop:'static'
-				});
+//	            console.log(rs);
+	            $("#table-responsive").html(rs);
 	        },'html');
-        });
+		});
 
+        //选择时弹出 点击确认按钮 返回
+		$('#confirm_check').click(function(e){
+			//未完待续
+		});
 
-
-        function showPopover(obj){
-            $("[data-toggle='popover']").each(function(i,o){
-                console.log(o);
-                if(obj.attr('cat_id') != $(o).attr('cat_id')){
-                    $(o).popover('destroy');
-                }
-            });
-            obj.popover('show');
-
-        }
-
-
-        $('body').on('click','.popover-content',function(e){
-            $("[data-toggle='popover']").popover('destroy');
-        });
-        
-
-        //添加1级分类
-        $(".j_btnadd1").on('click',function(e){
-            $("#depth").attr('value',1);
-            var href = "{$__base_url}/adminItemCatAdd";
-            $.post(href,'depth=1',
-	        function(rs){
-	            $('#myModal-body').empty().html(rs);
-                $('#myModal').modal({
-				    keyboard: false,
-                    backdrop:'static'
-				});
-	        },'html');
-        });
-
-        //添加2级分类
-        $(".j_btnadd2").on('click',function(e){
-            
-            var href = "{$__base_url}/adminItemCatAdd";
-            $.post(href,'depth=2',
-	        function(rs){
-	            $('#myModal-body').empty().html(rs);
-                $("#depth").attr('value',2);
-                $('#myModal').modal({
-				    keyboard: false,
-                    backdrop:'static'
-				});
-	        },'html');
-        });
-
-        //添加3级分类
-        $(".j_btnadd3").on('click',function(e){
-            
-            var href = "{$__base_url}/adminItemCatAdd";
-            $.post(href,'depth=3',
-	        function(rs){
-	            $('#myModal-body').empty().html(rs);
-                $("#depth").attr('value',3);
-                $('#myModal').modal({
-				    keyboard: false,
-                    backdrop:'static'
-				});
-	        },'html');
-        });
-
-        //点击分类 展示下级分类
-        $('body').on('click',".j_list-group-item1",function(e){
-            if(!$(e.target).hasClass('list-group-item')){
-                return;
-            }
-            var href = "{$__base_url}/adminItemCatshowChildren";
-            var cat_id = $(e.target).attr('cat_id');
-            $(".j_list-group-item1").removeClass("active");
-            $(e.target).addClass("active");
-            $.post(href,'depth=1&cat_id='+cat_id,
-            function(rs){
-                $('#cat2').empty().html(rs);
-
-                $('.j_list-group-item2:first').click();
-            },'html');
-        });
-
-        //弹出框提交按钮点击事件
-        $('.j_model_btn').click(function(e){
-            var form = $('#myModal-body').find('form');
-            
-            if(form.svalidate() == false){
-                return false;
-            }else{
-                var href = $(form).attr('action');
-                $.post(href,$(form).serialize(),
-                function(rs){
-//                    console.log(rs.data.name);
-                    if(rs.code == '00'){
-                        $("#alert-danger").hide();
-                        $("#alert-success").text('succ').show();
-                        $('#myModal').modal('hide');
-
-                        if(form.attr('id') == 'add'){
-                            //添加分类
-                            var html = '<div type="button" data-toggle="popover" data-placement="top" cat_id='+rs.data.id+' class="j_list-group-item'+$("#depth").attr('value')+' list-group-item"><label cat_id='+rs.data.id+'>'+rs.data.name+'</label><span cat_id='+rs.data.id+' style="float:right" class="j_cat-remove glyphicon glyphicon-remove"></span><span style="float:right">&nbsp;&nbsp;&nbsp;</span><span cat_id='+rs.data.id+' style="float:right" class="j_cat-edit glyphicon glyphicon-edit"></span></div>';
-
-
-                            if($("#depth").attr('value') == 1){
-                                $('.j_btnadd1').next("span").append(html);
-                            }else if($("#depth").attr('value') == 2){
-                                $('.j_btnadd2').next("span").append(html);
-                            }else if($("#depth").attr('value') == 3){
-                                $('.j_btnadd3').next("span").append(html);
-                            }
-
-                        }else{
-                            //编辑分类
-                            $('label[cat_id='+rs.data.id+"]").text(rs.data.name);
-                        }
-
-                       // goPage(globalPage);
-
-                    }else{
-                        $("#alert-danger").text('errorcode:'+rs.code).show();
-                        $("#alert-success").hide();
-                        
-                    }
-
-
-                },'json');
-            }
-            
-        });
 </script>

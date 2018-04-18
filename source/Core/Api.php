@@ -57,6 +57,8 @@ class Api{
             'content.article.cat.list'=>'Api_ArticleCat@Syscontent',
             #文章分类保存
             'content.article.cat.save'=>'Api_ArticleCatSave@Syscontent',
+            #文章分类删除
+            'content.article.cat.remove'=>'Api_ArticleCatRemove@Syscontent',
         );
     }
 

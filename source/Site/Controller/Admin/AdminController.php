@@ -13,6 +13,8 @@ class AdminController extends Controller implements IAdminController{
 	var $columns = array();
 	var $appendColumns = array();
 	var $filter = array();
+
+    var $tree = false;
     function __construct(){
     	$this->columns = $this->getColumns();
         
@@ -65,6 +67,7 @@ class AdminController extends Controller implements IAdminController{
 		$this->assign('searchOptions',$searchOptions);
 
 		$this->assign('data',$data['list']);
+        
 		if($data['total']){
 			$this->assign('total',$data['total']);
 			$this->assign('limit',$data['limit']);
@@ -77,12 +80,20 @@ class AdminController extends Controller implements IAdminController{
         $this->assign('actions',$actions);
 		
 		$this->assign('title',$title);
+        if($this->tree == true){
+            $this->assign('tree',true);
+        }
 		
 		#如果是分页或者ajax，则局部刷新即可
 		if($_POST['ajaxPage']){
-			$this->display('Site/View/Admin/grid.html');
+            if($this->tree == true){
+                $this->display('Site/View/Admin/gridTree.html');exit;
+            }else{
+			    $this->display('Site/View/Admin/grid.html');
+            }
 		}else{
 			$this->display('Site/View/Admin/index.html');
+            
 		}
 	}
 	

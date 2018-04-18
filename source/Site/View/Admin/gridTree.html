@@ -22,22 +22,40 @@
       </thead>
       <tbody>
         {foreach from=$data item=item key=key}
-         <tr>
+         <tr id="{$item['id']}" parent_id="{$item['parent_id']}" child_count="{$item['child_count']}" >
                 <td>
                       <input type="checkbox" class="j_grid_check" name="pk[{$item[$pk]}]" value="{$item[$pk]}">
                 </td>
                 {foreach from=$columns.columns item=iitem key=colkey}
                     {if $iitem.lable}
                         {if $iitem.type == 'time'}
-                            <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>{$item[$colkey]|date}
+                            <td {if $iitem.pk} pk={$colkey}  value={$item[$colkey]}{/if}>
+                            {if $colkey=='name'}
+                                <span id="{$item['id']}" parent_id="{$item['parent_id']}" child_count="{$item['child_count']}" class="j_glyphicon glyphicon glyphicon-minus-sign" style="color: rgb(116, 94, 165); font-size: 16px;padding-left:{$item['deep']*20}px;cursor:pointer;">&nbsp;{$item[$colkey]|date} </span>
+                            {else}
+                                {$item[$colkey]|date}
+                            {/if}
+                            
                             </td>
                         {elseif is_array($iitem.type)}
                             {assign var=tmp  value=$item[$colkey]}
                             <td {if $iitem.pk}pk={$colkey} value={$item[$colkey]}{/if}>
+                            {if $colkey=='name'}
+                                <span id="{$item['id']}" parent_id="{$item['parent_id']}" child_count="{$item['child_count']}" class="j_glyphicon glyphicon glyphicon-minus-sign" style="color: rgb(116, 94, 165); font-size: 16px;padding-left:{$item['deep']*20}px;cursor:pointer;">&nbsp;{$iitem.type[$tmp]} </span>
+                                
+                            {else}
                                 {$iitem.type[$tmp]}
+                            {/if}
+                                
                             </td>
                         {else}
-                            <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>{$item[$colkey]}
+                            <td {if $iitem.pk}pk={$colkey}  value={$item[$colkey]}{/if}>
+                            {if $colkey=='name'}
+                                <span id="{$item['id']}"  parent_id="{$item['parent_id']}" child_count="{$item['child_count']}" class="j_glyphicon glyphicon glyphicon-minus-sign" style="color: rgb(116, 94, 165); font-size: 16px;padding-left:{$item['deep']*20}px;cursor:pointer;">&nbsp;{$item[$colkey]} </span>
+                            {else}
+                                {$item[$colkey]}
+                            {/if}
+                            
                             </td>
                         {/if}
                         
@@ -184,7 +202,8 @@
                         if(rs.code == '00'){
                             goPage(globalPage);
                         }else{
-
+                            $("#alert-danger").find("p").html('errorcode:'+rs.code);
+                            $("#alert-danger").show();
                         }
                        
                     },'json');
@@ -235,7 +254,39 @@
         
     //模态框关闭时 刷新数据区域
     $('#myModal').on('hidden.bs.modal',function(e){
-        //console.log(o);
+
         goPage(globalPage);
     });
+
+
+    //树形结构的展开和收拢
+    $('.j_glyphicon').click(function(e){
+        if($(this).hasClass('glyphicon-minus-sign')){
+            
+            hideNode(e.target);
+        }else if($(this).hasClass('glyphicon-plus-sign')){
+            showNode(e.target);
+        }
+        
+    });
+
+    function hideNode(obj){
+        var id = $(obj).attr('id');
+        $(obj).removeClass('glyphicon-minus-sign').addClass('glyphicon-plus-sign');
+        $("tr[parent_id="+id+"]").hide();
+        $("tr[parent_id="+id+"]").each(function(i,o){
+            console.log($(o).find('.j_glyphicon'));
+            hideNode($(o).find('.j_glyphicon'));
+        });
+    }
+
+    function showNode(obj){
+        var id = $(obj).attr('id');
+        $(obj).removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
+        $("tr[parent_id="+id+"]").show();
+        $("tr[parent_id="+id+"]").each(function(i,o){
+            showNode($(o).find('.j_glyphicon'));
+        });
+    }
+
 </script>
